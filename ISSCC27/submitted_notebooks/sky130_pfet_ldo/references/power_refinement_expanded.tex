@@ -1,0 +1,136 @@
+\documentclass[11pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb}
+\begin{document}
+\section*{Expanded reduced transfers of the selected power cell}
+MP is the integrated PFET pass device with drain O, gate G and source and body VIN. MF has drain G, gate C and source and body O. The added PFET PU has drain G, gate C and source and body VIN. PH is diode connected between VIN and G. NB connects G to ground with a quiet gate bias. The added capacitor $C_{AG}=1$ pF connects O and G. Both of its terminal currents are retained.
+
+The following reduction retains O, G and C as independent dynamic nodes. The unchanged sensing circuit is linearized at the connected operating point. Its internal nodes A, X and Y are eliminated with their local capacitances omitted. Its two remaining terminal currents, defined positive into the sensing circuit, are
+\begin{align}
+i_{C,S}&=c/R_C+gm_{EO}o-gm_{ER}r-gm_{CV}v,\\
+i_{O,S}&=gm_{SC}c+o/R_S-gm_{SR}r-gm_{SV}v.
+\end{align}
+These are signed static derivative definitions of the actual sensing network. They retain its output loading and supply sensitivity. In particular, $gm_{EO}$ and $gm_{ER}$ are not assumed equal. They do not introduce a new ideal amplifier. All transistor $gm$ and $ro$ values are evaluated at the same connected bias point.
+
+This model omits the internal sensing poles and uses reciprocal $C_{gs}$, $C_{gd}$ and $C_{ds}$ elements for the retained transistors. It is an explicit topology reduction, not a fitted native MHz model or a complete internal stability test. The native simulations retain their original compact model charge.
+
+Write H for PH, N for NB and U for PU. Define only resistance and capacitance combinations
+\begin{align}
+R_G&=ro_F\parallel ro_U\parallel ro_H\parallel ro_N,\\
+R_O&=R_L\parallel R_S\parallel ro_P\parallel ro_F,\\
+C_Q&=C_{gdF}+C_{gdU},& C_S&=C_{gsF},\\
+C_T&=C_{gdP}+C_{dsF}+C_{AG},\\
+C_H&=C_{gsH}+C_{dsH},& C_N&=C_{gdN}+C_{dsN},\\
+C_C&=C_{CMD}+C_S+C_{gsU}+C_Q,\\
+C_G&=C_{gsP}+C_Q+C_T+C_{dsU}+C_H+C_N,\\
+C_O&=C_{OUT}+C_{dsP}+C_S+C_T,\\
+C_{IG}&=C_{gsP}+C_{dsU}+C_H.
+\end{align}
+Here $C_{CMD}=100$ pF and $C_{OUT}=200$ pF. An ideal constant current load has $R_L\to\infty$. PH has no independent gate to drain capacitor because those terminals are shorted. NB gate capacitance to its quiet bias is retained in $C_N$.
+
+\subsection*{Physical node equations}
+With $v=v_{in}$ and $r=v_{ref}$, the command equation is
+\begin{equation}
+(1/R_C+sC_C)c-sC_Qg+(gm_{EO}-sC_S)o
+=(gm_{CV}+sC_{gsU})v+gm_{ER}r.
+\end{equation}
+The finite gate equation is
+\begin{align}
+&(gm_F+gm_U-sC_Q)c+(gm_H+1/R_G+sC_G)g
+-(gm_F+1/ro_F+sC_T)o\notag\\
+&\hspace{10mm}=(gm_H+1/ro_H+gm_U+1/ro_U+sC_{IG})v.
+\end{align}
+The output equation is
+\begin{align}
+&(gm_{SC}-gm_F-sC_S)c+(gm_P-1/ro_F-sC_T)g
++(gm_F+1/R_O+sC_O)o\notag\\
+&\hspace{10mm}=(gm_P+1/ro_P+gm_{SV}+sC_{dsP})v+gm_{SR}r-i_L.
+\end{align}
+The terms containing $gm_F$ and $ro_F$ occur at both G and O because MF draws its source current from O. PU contributes source current from VIN and loads C through $C_{gsU}$ and $C_{gdU}$. The $C_{AG}$ contribution increases both $C_G$ and $C_O$ and the reciprocal coupling $C_T$.
+
+\subsection*{Explicit polynomial coefficients}
+Define the following real coefficients directly from the physical parameters:
+\begin{align}
+a_0&=(gm_F+gm_U)(gm_P-1/ro_F)-(gm_H+1/R_G)(gm_{SC}-gm_F),\\
+a_1&=-(gm_F+gm_U)C_T-C_Q(gm_P-1/ro_F)
++(gm_H+1/R_G)C_S-C_G(gm_{SC}-gm_F),\\
+a_2&=C_QC_T+C_GC_S,\\
+b_0&=-(gm_P-1/ro_F)/R_C,\\
+b_1&=C_T/R_C-C_C(gm_P-1/ro_F)-C_Q(gm_{SC}-gm_F),\\
+b_2&=C_CC_T+C_QC_S,\\
+c_0&=(gm_H+1/R_G)/R_C,\\
+c_1&=C_G/R_C+C_C(gm_H+1/R_G)+C_Q(gm_F+gm_U),\\
+c_2&=C_CC_G-C_Q^2.
+\end{align}
+The expanded common denominator is $D(s)=d_0+d_1s+d_2s^2+d_3s^3$, with
+\begin{align}
+d_0&=gm_{EO}a_0-(gm_F+1/ro_F)b_0+(gm_F+1/R_O)c_0,\\
+d_1&=gm_{EO}a_1-C_Sa_0-(gm_F+1/ro_F)b_1-C_Tb_0
++(gm_F+1/R_O)c_1+C_Oc_0,\\
+d_2&=gm_{EO}a_2-C_Sa_1-(gm_F+1/ro_F)b_2-C_Tb_1
++(gm_F+1/R_O)c_2+C_Oc_1,\\
+d_3&=C_CC_GC_O-C_CC_T^2-C_Q^2C_O-2C_QC_SC_T-C_GC_S^2.
+\end{align}
+The coefficients $a_i$, $b_i$ and $c_i$ are explicitly listed polynomial coefficients, not unresolved determinants or frequency dependent quantities. For example, the DC term is also
+\begin{align}
+d_0={}&gm_{EO}\left[(gm_F+gm_U)(gm_P-1/ro_F)
+ -(gm_H+1/R_G)(gm_{SC}-gm_F)\right]\notag\\
+&+\frac{(gm_F+1/ro_F)(gm_P-1/ro_F)}{R_C}
++\frac{(gm_F+1/R_O)(gm_H+1/R_G)}{R_C}.
+\end{align}
+
+The supply numerator $N_V(s)=v_0+v_1s+v_2s^2+v_3s^3$ has coefficients
+\begin{align}
+v_0={}&gm_{CV}a_0+(gm_H+1/ro_H+gm_U+1/ro_U)b_0
++(gm_P+1/ro_P+gm_{SV})c_0,\\
+v_1={}&gm_{CV}a_1+C_{gsU}a_0
++(gm_H+1/ro_H+gm_U+1/ro_U)b_1+C_{IG}b_0\notag\\
+&+(gm_P+1/ro_P+gm_{SV})c_1+C_{dsP}c_0,\\
+v_2={}&gm_{CV}a_2+C_{gsU}a_1
++(gm_H+1/ro_H+gm_U+1/ro_U)b_2+C_{IG}b_1\notag\\
+&+(gm_P+1/ro_P+gm_{SV})c_2+C_{dsP}c_1,\\
+v_3={}&C_{gsU}a_2+C_{IG}b_2+C_{dsP}c_2.
+\end{align}
+The reference numerator $N_R(s)=r_0+r_1s+r_2s^2$ has coefficients
+\begin{align}
+r_0&=gm_{ER}a_0+gm_{SR}c_0,\\
+r_1&=gm_{ER}a_1+gm_{SR}c_1,\\
+r_2&=gm_{ER}a_2+gm_{SR}c_2.
+\end{align}
+The requested reduced transfer functions are therefore
+\begin{align}
+H_{VIN}(s)&=\frac{v_0+v_1s+v_2s^2+v_3s^3}{d_0+d_1s+d_2s^2+d_3s^3},\\
+H_{VREF}(s)&=\frac{r_0+r_1s+r_2s^2}{d_0+d_1s+d_2s^2+d_3s^3}.
+\end{align}
+The load response is $o/i_L=-(c_0+c_1s+c_2s^2)/D(s)$. Supply transfer is defined with the reference and bias ports quiet. Reference transfer is defined with VIN and the bias ports quiet.
+
+\subsection*{Two declared ordered loop returns}
+Set all independent small signal sources to zero. The first closure restores the entire MF controlled current $gm_F(c-o)$ between G and O while the sensing current $gm_{EO}o$ at C is opened. The second closure restores that sensing current with MF already closed. Every $ro$ and capacitance remains connected in both openings. The static sensing output coupling $gm_{SC}$ also remains connected.
+
+The first closure numerator is $F(s)=f_0+f_1s+f_2s^2$, where
+\begin{align}
+f_0&=\frac{gm_F}{R_C}(gm_P-1/ro_F+gm_H+1/R_G),\\
+f_1&=gm_F\left[\frac{C_G-C_T}{R_C}
++(C_C-C_S)(gm_P-1/ro_F+gm_H+1/R_G)
++C_Q(gm_{SC}+gm_U-1/ro_F+1/R_O)\right],\\
+f_2&=gm_F\left[(C_C-C_S)(C_G-C_T)
++C_Q(C_O-C_S-C_T-C_Q)\right].
+\end{align}
+The sensing closure numerator is $E(s)=gm_{EO}(a_0+a_1s+a_2s^2)$. The explicit ordered return ratios are
+\begin{align}
+T_F(s)&=\frac{f_0+f_1s+f_2s^2}
+{(d_0-gm_{EO}a_0-f_0)+(d_1-gm_{EO}a_1-f_1)s
++(d_2-gm_{EO}a_2-f_2)s^2+d_3s^3},\\
+T_E(s)&=\frac{gm_{EO}(a_0+a_1s+a_2s^2)}
+{(d_0-gm_{EO}a_0)+(d_1-gm_{EO}a_1)s
++(d_2-gm_{EO}a_2)s^2+d_3s^3}.
+\end{align}
+These are the two declared closures of the selected model. They are not independently measured connected loop gains and must not be multiplied as such. They are not measurements of native loop margin or a test of every internal mode. Opening MF removes its controlled current at both terminals, rather than deleting only a presumed output feedback term.
+
+\subsection*{Checks and interpretation}
+No coefficient at DC depends on $C_{AG}$. At fixed transistor parameters each denominator and numerator coefficient is affine in $C_{AG}$. Apparent quadratic terms cancel because the capacitor is reciprocal. A model that changes only the gate equation fails this identity. The cubic coefficient is the determinant of the retained reciprocal capacitance matrix, expanded above without a matrix operation.
+
+The helper changes the supply numerator as well as the denominator. Its supply referenced current can assist gate ripple tracking, while its finite $ro_U$ and terminal capacitances modify feedback and loading. It therefore cannot be replaced by an ideal gate command. The longer pass transistor changes $gm_P$, $ro_P$ and all pass capacitances together. Neither an isolated $ro$ improvement nor an added charge path proves improved connected PSR.
+
+The explicit coefficients were checked against independent direct solutions of the three node equations in 1000 synthetic parameter cases. The maximum relative discrepancies were $1.78\times10^{-12}$ for supply transfer, $1.11\times10^{-13}$ for reference transfer and $5.12\times10^{-12}$ for load response. The denominator and affine $C_{AG}$ identities were checked separately. This is an algebra verification of the declared reduction. It is not native model validation, a proof of all internal modes, or a loop margin measurement.
+\end{document}

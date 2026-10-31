@@ -1,0 +1,41 @@
+SKY130 fixed power cell and parallel supply helper refinement
+.lib "../../models/sky130_mos.lib.spice" tt
+.temp 27
+.option reltol=1e-6 abstol=1e-13 vntol=1e-8
+VIN VIN 0 1.2
+VREF R 0 .8
+VBN1 BN1 0 0.659916053624
+VBN2 BN2 0 0.655649839629
+VBB BB 0 0.668359375
+ILOAD O 0 DC 0.05
+COUT O 0 200p
+CC C 0 100p
+CAG O G 1p
+VS_MP O D_MP 0
+XMP D_MP G VIN VIN sky130_fd_pr__pfet_01v8 w=5 l=0.3 nf=1 m=2690
+VS_MF G D_MF 0
+XMF D_MF C O O sky130_fd_pr__pfet_01v8 w=5 l=0.15 nf=1 m=300
+VS_M1 A D_M1 0
+XM1 D_M1 R X 0 sky130_fd_pr__nfet_01v8 w=5 l=1.0 nf=1 m=5
+VS_M2 C D_M2 0
+XM2 D_M2 O Y 0 sky130_fd_pr__nfet_01v8 w=5 l=1.0 nf=1 m=5
+VS_L1 Y D_L1 0
+XL1 D_L1 Y R R sky130_fd_pr__pfet_01v8 w=5 l=0.15 nf=1 m=10
+VS_L2 X D_L2 0
+XL2 D_L2 X O O sky130_fd_pr__pfet_01v8 w=5 l=0.15 nf=1 m=10
+VS_P1 A D_P1 0
+XP1 D_P1 A VIN VIN sky130_fd_pr__pfet_01v8 w=5 l=0.15 nf=1 m=5
+VS_P2 C D_P2 0
+XP2 D_P2 A VIN VIN sky130_fd_pr__pfet_01v8 w=5 l=0.15 nf=1 m=3
+VS_B1 X D_B1 0
+XB1 D_B1 BN1 0 0 sky130_fd_pr__nfet_01v8 w=5 l=0.3 nf=1 m=5
+VS_B2 Y D_B2 0
+XB2 D_B2 BN2 0 0 sky130_fd_pr__nfet_01v8 w=5 l=0.3 nf=1 m=5
+VS_PH G D_PH 0
+XPH D_PH G VIN VIN sky130_fd_pr__pfet_01v8 w=5 l=1.0 nf=1 m=6
+VS_NB G D_NB 0
+XNB D_NB BB 0 0 sky130_fd_pr__nfet_01v8 w=5 l=0.3 nf=1 m=12
+VS_PU G D_PU 0
+XPU D_PU C VIN VIN sky130_fd_pr__pfet_01v8 w=5 l=1 nf=1 m=90
+.nodeset v(O)=.8 v(G)=.1 v(C)=.3 v(X)=.15 v(Y)=.15 v(A)=.55
+.end

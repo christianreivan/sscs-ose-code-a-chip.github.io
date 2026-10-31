@@ -1,0 +1,16 @@
+{
+  "evidence": "Synthetic algebra check of a selected three node model only. No native simulation or qualification.",
+  "cases": 1000,
+  "transfer_evaluations": 3000,
+  "ordered_loop_evaluations": 2000,
+  "loop_error_normalization": "Absolute discrepancy divided by max(1, magnitudes of both compared returns).",
+  "maximum_relative_errors": {
+    "supply": 1.7734555767871763e-12,
+    "reference": 1.101374097241819e-13,
+    "load": 5.1180619768259746e-12,
+    "denominator": 1.316300394764989e-14,
+    "CAG_affinity": 1.7618373756268256e-12,
+    "sensing_return_normalized": 4.439326584724225e-14,
+    "follower_return_normalized": 6.484654311889402e-14
+  }
+}

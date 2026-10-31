@@ -1,0 +1,282 @@
+{
+  "source": "circuits/power_refinement/selected.spice",
+  "sha256": "c224a4be0b20f9d0ae26f2a70704da58981e5a2287d957ec7baf466a8a18283b",
+  "devices": [
+    {
+      "id": "MP",
+      "D": "D_MP",
+      "G": "G",
+      "S": "VIN",
+      "B": "VIN",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "w": "5",
+      "l": "0.3",
+      "nf": "1",
+      "m": "2690",
+      "shown_D": "O"
+    },
+    {
+      "id": "MF",
+      "D": "D_MF",
+      "G": "C",
+      "S": "O",
+      "B": "O",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "w": "5",
+      "l": "0.15",
+      "nf": "1",
+      "m": "300",
+      "shown_D": "G"
+    },
+    {
+      "id": "M1",
+      "D": "D_M1",
+      "G": "R",
+      "S": "X",
+      "B": "0",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "w": "5",
+      "l": "1.0",
+      "nf": "1",
+      "m": "5",
+      "shown_D": "A"
+    },
+    {
+      "id": "M2",
+      "D": "D_M2",
+      "G": "O",
+      "S": "Y",
+      "B": "0",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "w": "5",
+      "l": "1.0",
+      "nf": "1",
+      "m": "5",
+      "shown_D": "C"
+    },
+    {
+      "id": "L1",
+      "D": "D_L1",
+      "G": "Y",
+      "S": "R",
+      "B": "R",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "w": "5",
+      "l": "0.15",
+      "nf": "1",
+      "m": "10",
+      "shown_D": "Y"
+    },
+    {
+      "id": "L2",
+      "D": "D_L2",
+      "G": "X",
+      "S": "O",
+      "B": "O",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "w": "5",
+      "l": "0.15",
+      "nf": "1",
+      "m": "10",
+      "shown_D": "X"
+    },
+    {
+      "id": "P1",
+      "D": "D_P1",
+      "G": "A",
+      "S": "VIN",
+      "B": "VIN",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "w": "5",
+      "l": "0.15",
+      "nf": "1",
+      "m": "5",
+      "shown_D": "A"
+    },
+    {
+      "id": "P2",
+      "D": "D_P2",
+      "G": "A",
+      "S": "VIN",
+      "B": "VIN",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "w": "5",
+      "l": "0.15",
+      "nf": "1",
+      "m": "3",
+      "shown_D": "C"
+    },
+    {
+      "id": "B1",
+      "D": "D_B1",
+      "G": "BN1",
+      "S": "0",
+      "B": "0",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "w": "5",
+      "l": "0.3",
+      "nf": "1",
+      "m": "5",
+      "shown_D": "X"
+    },
+    {
+      "id": "B2",
+      "D": "D_B2",
+      "G": "BN2",
+      "S": "0",
+      "B": "0",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "w": "5",
+      "l": "0.3",
+      "nf": "1",
+      "m": "5",
+      "shown_D": "Y"
+    },
+    {
+      "id": "PH",
+      "D": "D_PH",
+      "G": "G",
+      "S": "VIN",
+      "B": "VIN",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "w": "5",
+      "l": "1.0",
+      "nf": "1",
+      "m": "6",
+      "shown_D": "G"
+    },
+    {
+      "id": "NB",
+      "D": "D_NB",
+      "G": "BB",
+      "S": "0",
+      "B": "0",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "w": "5",
+      "l": "0.3",
+      "nf": "1",
+      "m": "12",
+      "shown_D": "G"
+    },
+    {
+      "id": "PU",
+      "D": "D_PU",
+      "G": "C",
+      "S": "VIN",
+      "B": "VIN",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "w": "5",
+      "l": "1",
+      "nf": "1",
+      "m": "90",
+      "shown_D": "G"
+    }
+  ],
+  "zero_volt_probe_aliases": {
+    "D_MP": "O",
+    "D_MF": "G",
+    "D_M1": "A",
+    "D_M2": "C",
+    "D_L1": "Y",
+    "D_L2": "X",
+    "D_P1": "A",
+    "D_P2": "C",
+    "D_B1": "X",
+    "D_B2": "Y",
+    "D_PH": "G",
+    "D_NB": "G",
+    "D_PU": "G"
+  },
+  "shown_terminals": {
+    "M1": {
+      "D": "A",
+      "G": "R",
+      "S": "X",
+      "B": "0"
+    },
+    "M2": {
+      "D": "C",
+      "G": "O",
+      "S": "Y",
+      "B": "0"
+    },
+    "P1": {
+      "D": "A",
+      "G": "A",
+      "S": "VIN",
+      "B": "VIN"
+    },
+    "P2": {
+      "D": "C",
+      "G": "A",
+      "S": "VIN",
+      "B": "VIN"
+    },
+    "L2": {
+      "D": "X",
+      "G": "X",
+      "S": "O",
+      "B": "O"
+    },
+    "L1": {
+      "D": "Y",
+      "G": "Y",
+      "S": "R",
+      "B": "R"
+    },
+    "B1": {
+      "D": "X",
+      "G": "BN1",
+      "S": "0",
+      "B": "0"
+    },
+    "B2": {
+      "D": "Y",
+      "G": "BN2",
+      "S": "0",
+      "B": "0"
+    },
+    "PH": {
+      "D": "G",
+      "G": "G",
+      "S": "VIN",
+      "B": "VIN"
+    },
+    "MF": {
+      "D": "G",
+      "G": "C",
+      "S": "O",
+      "B": "O"
+    },
+    "NB": {
+      "D": "G",
+      "G": "BB",
+      "S": "0",
+      "B": "0"
+    },
+    "MP": {
+      "D": "O",
+      "G": "G",
+      "S": "VIN",
+      "B": "VIN"
+    },
+    "PU": {
+      "D": "G",
+      "G": "C",
+      "S": "VIN",
+      "B": "VIN"
+    }
+  },
+  "capacitors_F": {
+    "COUT": 2e-10,
+    "CC": 1e-10,
+    "CAG": 1e-12
+  },
+  "quiet_biases_V": {
+    "BN1": 0.659916053624,
+    "BN2": 0.655649839629,
+    "BB": 0.668359375
+  },
+  "geometry_units": "micrometre",
+  "body_note": "PFET bodies follow the declared source node. NFET bodies are ground. Body wires are omitted visually and recorded explicitly here."
+}

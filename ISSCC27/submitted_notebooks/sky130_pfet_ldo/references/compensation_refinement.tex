@@ -1,0 +1,168 @@
+\section{Recorded research scope and outcome}
+The following derivation precedes native screening of a source referenced PFET regulator family. The accompanying portable record contains 117 configurations in nine bounded studies. All use the public SKY130 models at the typical process corner and 27 degrees Celsius, with a 200 pF output capacitor. The studies include command to gate compensation, physical driver current scaling, balanced sensing and driver scaling, series resistance lead, complementary gate drive, local NFET feedback, and adaptive gate damping.
+
+No configuration in this record establishes the requested combination of useful MHz supply rejection and acceptable behavior across the tested load range. A favorable AC trace is rejected when its operating point has right half plane poles. Some settings pass the selected pole checks but fail the recorded load transition. These distinctions are retained in the accompanying data. The selected model derivations explain terminal dependencies and do not replace native compact model charge.
+
+The supply sourced actuator compensation numerator and denominator were independently checked against a direct matrix solution in 1000 transfer evaluations. The maximum relative difference was $3.94\times10^{-14}$. The local NFET coefficient corrections and its individually opened return ratio were checked in 2000 evaluations. Maximum transfer differences were below $4.0\times10^{-14}$ and the local return ratio difference was below $1.3\times10^{-9}$. These are algebra checks using synthetic parameters. They do not constitute native circuit qualification.
+
+
+
+\section{Compensation of the supply sourced actuator}
+The retained circuit uses a PFET actuator whose drain is connected to the pass gate $G$, gate to command node $C$, and source and body to $V_{IN}$. Increasing $C$ reduces actuator current, decreases $G$, and increases the regulated output. The sensing circuit therefore draws additional current from $C$ when the output rises. This sign is negative feedback. The original output sourced follower action is absent.
+
+The added branch has capacitor $C_M$ in series with resistor $R_Z$ between $C$ and $G$. The original capacitor from $C$ to ground is retained as $C_S$ or reduced. No output capacitance exceeds 200 pF. The intrinsic actuator capacitance $C_F=C_{gd,F}$ remains directly between $C$ and $G$. Define
+\begin{equation}
+ Z_M=R_Z+\frac{1}{sC_M},\quad \tau_Z=R_ZC_M,\quad
+ Z_X=\left(sC_F+\frac{1}{Z_M}\right)^{-1}.
+\end{equation}
+The selected three node model represents the sensing circuit by $g_{mE}$, finite output resistance $R_C$, and its local capacitance. The physical sensing circuit is retained without reduction in every native simulation. Let $C_C$ include $C_S$, actuator $C_{gs,F}$, and local command node capacitance, but exclude $C_F$. Let $C_G$ include pass $C_{gs,P}$ and $C_{gd,P}$ and actuator $C_{ds,F}$, but exclude $C_F$. Set $C_P=C_{gd,P}$, $C_O=C_{OUT}+C_{ds,P}+C_P$, $R_O=R_L\parallel r_{oP}$, and $R_G=r_{oF}\parallel r_{oPH}\parallel r_{oNB}$. The diode connected pullup transconductance $g_{mH}$ is retained explicitly. Supply excitation coefficients are $k_C(s)=u_0+su_1$, $k_G(s)=v_0+sv_1$, and $k_P(s)=w_0+sw_1$, where $w_0=g_{mP}+1/r_{oP}$ and $w_1=C_{ds,P}$. The first two coefficients summarize the physical sensing and bias supply paths only within this reduced model.
+
+\begin{align}
+ \left(\frac1{R_C}+sC_C\right)c+\frac{c-g}{Z_X}+g_{mE}o&=g_{mE}r+k_Cv,\\
+ g_{mF}c+\left(g_{mH}+\frac1{R_G}+sC_G\right)g+\frac{g-c}{Z_X}-sC_Po&=k_Gv,\\
+ (g_{mP}-sC_P)g+\left(\frac1{R_O}+sC_O\right)o&=k_Pv-i_L.
+\end{align}
+All three nodes are free to move. Neither the pass gate nor the regulated output is clamped.
+
+The following coefficients expand the determinant before the added series branch denominator is cleared:
+\begin{align}
+ p_0&=\frac{g_{mH}+1/R_G}{R_CR_O}+g_{mE}g_{mF}g_{mP},\\
+ p_1&=\frac{(g_{mH}+1/R_G)C_O+C_G/R_O+C_Pg_{mP}}{R_C}
+       +\frac{C_C(g_{mH}+1/R_G)}{R_O}-g_{mE}g_{mF}C_P,\\
+ p_2&=\frac{C_GC_O-C_P^2}{R_C}
+       +C_C\left[(g_{mH}+1/R_G)C_O+C_G/R_O+C_Pg_{mP}\right],\\
+ p_3&=C_C(C_GC_O-C_P^2),\\
+ t_0&=\frac{1/R_C+g_{mH}+1/R_G+g_{mF}}{R_O}-g_{mE}g_{mP},\\
+ t_1&=(1/R_C+g_{mH}+1/R_G+g_{mF})C_O+(C_C+C_G)/R_O+C_Pg_{mP}+g_{mE}C_P,\\
+ t_2&=(C_C+C_G)C_O-C_P^2.
+\end{align}
+For $\mathcal D(s)=d_0+d_1s+d_2s^2+d_3s^3+d_4s^4$, the fully expanded assembly is
+\begin{align}
+ d_0&=p_0,\\
+ d_1&=p_1+\tau_Zp_0+(C_F+C_M)t_0,\\
+ d_2&=p_2+\tau_Zp_1+(C_F+C_M)t_1+C_F\tau_Zt_0,\\
+ d_3&=p_3+\tau_Zp_2+(C_F+C_M)t_2+C_F\tau_Zt_1,\\
+ d_4&=\tau_Zp_3+C_F\tau_Zt_2.
+\end{align}
+These coefficient definitions expose all products and require no determinant evaluation.
+
+For supply transfer, define
+\begin{align}
+ a_0&=u_0g_{mF}g_{mP}-v_0g_{mP}/R_C+w_0(g_{mH}+1/R_G)/R_C,\\
+ a_1&=g_{mF}(u_1g_{mP}-u_0C_P)-v_0C_Cg_{mP}-v_1g_{mP}/R_C+v_0C_P/R_C\\
+     &\quad+w_0[C_G/R_C+C_C(g_{mH}+1/R_G)]+w_1(g_{mH}+1/R_G)/R_C,\\
+ a_2&=-u_1g_{mF}C_P+v_0C_CC_P-v_1C_Cg_{mP}+v_1C_P/R_C+w_0C_CC_G\\
+     &\quad+w_1[C_G/R_C+C_C(g_{mH}+1/R_G)],\\
+ a_3&=v_1C_CC_P+w_1C_CC_G,\\
+ b_0&=-(u_0+v_0)g_{mP}+w_0(1/R_C+g_{mH}+1/R_G+g_{mF}),\\
+ b_1&=(u_0+v_0)C_P-(u_1+v_1)g_{mP}+w_0(C_C+C_G)\\
+     &\quad+w_1(1/R_C+g_{mH}+1/R_G+g_{mF}),\\
+ b_2&=(u_1+v_1)C_P+w_1(C_C+C_G).
+\end{align}
+The supply numerator coefficients are
+\begin{align}
+ n_0&=a_0,\\n_1&=a_1+\tau_Za_0+(C_F+C_M)b_0,\\
+ n_2&=a_2+\tau_Za_1+(C_F+C_M)b_1+C_F\tau_Zb_0,\\
+ n_3&=a_3+\tau_Za_2+(C_F+C_M)b_2+C_F\tau_Zb_1,\\
+ n_4&=\tau_Za_3+C_F\tau_Zb_2.
+\end{align}
+The reference numerator coefficients are
+\begin{align}
+ r_0&=g_{mE}g_{mF}g_{mP},\\
+ r_1&=g_{mE}\left[g_{mP}(g_{mF}\tau_Z-C_F-C_M)-g_{mF}C_P\right],\\
+ r_2&=g_{mE}\left[-g_{mP}C_F\tau_Z-C_P(g_{mF}\tau_Z-C_F-C_M)\right],\\
+ r_3&=g_{mE}C_PC_F\tau_Z.
+\end{align}
+Thus $o/v=(n_0+n_1s+n_2s^2+n_3s^3+n_4s^4)/\mathcal D$ and $o/r=(r_0+r_1s+r_2s^2+r_3s^3)/\mathcal D$. The poles are the roots of $\mathcal D$, including the coupled command, gate, and output dynamics and the added series branch state.
+
+When $C_F$ is neglected only for interpretation, actuator feedthrough produces the factor $g_{mF}+sC_M(g_{mF}R_Z-1)$. Its zero is in the right half plane when $R_Z<1/g_{mF}$, removed in this approximation at equality, and in the left half plane above equality. At the measured 50 mA operating point $g_{mF}=202.524\,\mu\mathrm S$, so $1/g_{mF}=4.94\,\mathrm{k\Omega}$. This numerical value selects the resistor sweep and does not replace transconductance by a resistance in the transistor model. Finite $C_F$ retains an additional feedthrough zero and must not be discarded in an accuracy claim.
+
+Every added branch is open at DC. Therefore its ideal DC operating point and zero frequency gain are unchanged. Its finite frequency effects can still degrade 1 kHz rejection, produce peaking, or destabilize the coupled circuit. Native compact model AC and nonempty pole diagnostics are required. Closed poles do not establish loop margin. Both load transition directions and the full fixed TT load set are required for the selected candidate. The reduced expressions are topology explanations, not numerical substitutes for native terminal charge.
+
+
+\section{Physical gate current scaling}
+The added screen scales only the multiplicities of the supply sourced actuator MF, diode connected pullup PH, and gate current sink NB by the same integer $k$. Their original multiplicities are 116, 50, and 4. The remaining device geometries, bias voltages, output capacitor, and external load are fixed. The screened values are $k=2,4,8$.
+
+At unchanged DC terminal voltages each branch current scales by $k$. Since $I_F+I_H-I_N=0$ at the pass gate, the same gate solution remains a DC solution after scaling. The precision sensing branches and pass transistor remain unchanged. Thus no pass resizing is needed to preserve the nominal DC load point in the ideal multiplicity scaling model. The native operating point is checked rather than imposed.
+
+For each scaled device, $g_m(k)=kg_m(1)$, $r_o(k)=r_o(1)/k$, and every physical terminal capacitance scales by $k$ at fixed bias. In the preceding expanded transfer functions this gives $g_{mF}\mapsto kg_{mF}$, $g_{mH}\mapsto kg_{mH}$, $R_G\mapsto R_G/k$, and $C_F\mapsto kC_F$. The command capacitance becomes $C_C(k)=C_S+C_{C,\mathrm{fixed}}+kC_{gs,F}$. The gate capacitance becomes $C_G(k)=C_{G,\mathrm{pass}}+kC_{G,\mathrm{driver}}$. The supply coefficients of the scaled driver follow the same current and terminal charge scaling. These substitutions into the stated $p_i,t_i,a_i,b_i,d_i,n_i,r_i$ coefficients retain finite gate resistance and the added command load. A reduction in gate resistance alone is not the model.
+
+The nominal first order external compensation zero cancellation value scales as $R_Z(k)=1/(kg_{mF})$. The screen compares no series resistor with this value for $C_M=0.2,0.5,1$ pF and no added command shunt. Native intrinsic capacitances remain present. Gate drive improves only if the reduction of finite gate impedance outweighs the additional command capacitance and the resulting coupled pole motion.
+
+The driver supply current increases in proportion to $k$ at the unchanged operating point. This overhead is reported separately from the external 50 mA load, while the current drawn from the ideal reference port is reported independently. Native DC, supply and reference transfer, nonempty closed poles, and both 100 ns load transition directions are required before accepting a scaled candidate. No process or mismatch qualification follows from this nominal screen.
+
+
+\section{Compensation of the direct complementary driver}
+The supplied revised circuit connects the gate of an LVT NFET pulldown directly to $C$, its drain to $G$, and its source and body to ground. The supply sourced PFET actuator retains its drain at $G$ and gate at $C$. The intermediate level shift node is removed. A positive command perturbation both reduces PFET sourcing current and increases NFET sinking current, so the command to gate transconductance is $g_{mF}+g_{mN}$ with the same inversion sign.
+
+The complete expanded three node transfer expressions in the compensation derivation therefore apply with the following explicitly physical substitutions:
+\begin{align}
+ g_{mF}\big|_{\mathrm{command}}&\longrightarrow g_{mF}+g_{mN},\\
+ C_F&\longrightarrow C_{gd,F}+C_{gd,N},\\
+ C_C&\longrightarrow C_{C,\mathrm{sensing}}+C_{gs,F}+C_{gs,N}+C_S,\\
+ C_G&\longrightarrow C_{G,\mathrm{pass}}+C_{ds,F}+C_{ds,N}+C_{G,\mathrm{pullup}},\\
+ R_G&\longrightarrow r_{oF}\parallel r_{oN}\parallel r_{oPH}.
+\end{align}
+The sensing transconductance and command resistance are evaluated at the revised native bias point. The command current substitution applies to every occurrence of $g_{mF}$ in $p_i,t_i,a_i,b_i,d_i,n_i,r_i$. It does not add $g_{mN}$ to the direct supply injection coefficient $v_0$, because the NFET source remains grounded. The supply coefficient retains the source and drain terminal connections of each physical transistor. This distinction is necessary for a supply transfer derivation.
+
+The reduced external branch zero condition becomes $R_Z>1/(g_{mF}+g_{mN})$ for a left half plane zero when the intrinsic gate to drain capacitances are omitted only for this interpretation. They remain in the expanded coefficients and native model. The requested eight combinations use $C_M=0.2,1,2,5$ pF and $R_Z=0,5$ kohm, with no added command shunt and unchanged 200 pF output capacitance. Native poles at 0, 5, and 50 mA are checked before acceptance. The revised bias is exploratory, and this nominal comparison does not establish process or mismatch robustness.
+
+
+\section{Local NFET feedback around the pass gate}
+The supplied connected circuit adds an LVT NFET NL with drain at $V_{IN}$, gate at $O$, source at $G$, and body at ground. The supply sourced PFET actuator and direct LVT NFET command pulldown remain. A positive output perturbation increases NL source current into $G$. The resulting increase of the PFET pass gate reduces pass current. This is a local negative feedback path. The output connects only to the NL gate, so NL does not create a DC conduction path from the pass gate into the output. At light load the local device may turn off while the supply sourced actuator retains gate support.
+
+Let $g_{mL}$ and $g_{mB,L}$ denote the NL gate and body transconductances. Its retained source current contribution to the gate equation is
+\begin{equation}
+ (g_{mL}+g_{mB,L}+1/r_{oL})g-g_{mL}o-v/r_{oL}.
+\end{equation}
+The body term cannot be discarded solely because the body voltage is fixed. Source motion changes the source to body voltage. The physical capacitors are $C_{gs,L}$ between $O$ and $G$, $C_{gd,L}$ between $O$ and $V_{IN}$, and $C_{ds,L}$ between $G$ and $V_{IN}$.
+
+Define $g_{mA}=g_{mF}+g_{mN}$ for the two command actuators, $C_T=C_{gd,P}+C_{gs,L}$, and $C_F=C_{gd,F}+C_{gd,N}$. The new gate capacitance includes $C_{gs,L}+C_{ds,L}$, while the output capacitance includes $C_{gs,L}+C_{gd,L}$. Let $R_G$ include $r_{oL}$ in parallel with the existing driver output resistances. The retained equations are
+\begin{align}
+ (1/R_C+sC_C)c+(c-g)/Z_X+g_{mE}o&=g_{mE}r+k_Cv,\\
+ g_{mA}c+(g_{mH}+g_{mL}+g_{mB,L}+1/R_G+sC_G)g+(g-c)/Z_X
+ -(g_{mL}+sC_T)o&=k_Gv,\\
+ (g_{mP}-sC_T)g+(1/R_O+sC_O)o&=k_Pv-i_L.
+\end{align}
+Here $Z_X^{-1}=sC_F+sC_M/(1+sR_ZC_M)$. The direct supply terms acquire $1/r_{oL}+sC_{ds,L}$ in $k_G$ and $sC_{gd,L}$ in $k_P$. No $g_{mL}$ is added to direct supply injection because the NL gate is at $O$.
+
+The fully expanded compensation coefficients stated earlier are reused with $g_{mF}\mapsto g_{mA}$, $g_{mH}\mapsto g_{mH}+g_{mL}+g_{mB,L}$, and $C_P\mapsto C_T$, and with the updated physical capacitances and resistances. The additional output controlled NL term requires the following explicit coefficient corrections after those substitutions:
+\begin{align}
+ p_0&\mapsto p_0+g_{mL}g_{mP}/R_C,\\
+ p_1&\mapsto p_1-g_{mL}C_T/R_C+C_Cg_{mL}g_{mP},\\
+ p_2&\mapsto p_2-C_Cg_{mL}C_T,\\
+ p_3&\mapsto p_3,\\
+ t_0&\mapsto t_0+g_{mL}g_{mP},\\
+ t_1&\mapsto t_1-g_{mL}C_T,\\
+ t_2&\mapsto t_2.
+\end{align}
+These updated coefficients give the same explicitly expanded $d_0$ through $d_4$ assembly. The expanded supply numerator $n_0$ through $n_4$ and reference numerator $r_0$ through $r_3$ require the stated physical substitutions but no further output controlled correction. They follow from the cofactors of the third row, which do not contain the gate equation output coefficient. Thus $o/v=\sum n_is^i/\sum d_is^i$ and $o/r=\sum r_is^i/\sum d_is^i$ remain complete rational expressions for this selected model.
+
+Opening only the controlled current $g_{mL}(o-g)$ while keeping all other controlled currents closed defines one local return ratio. It does not open the body controlled current. Set $\tau_Z=R_ZC_M$. The corresponding numerator coefficients are
+\begin{align}
+ \ell_0&=g_{mL}(g_{mP}+1/R_O)/R_C,\\
+ \ell_1&=g_{mL}\left[(C_O-C_T)/R_C+(g_{mP}+1/R_O)(C_C+\tau_Z/R_C+C_F+C_M)\right],\\
+ \ell_2&=g_{mL}\left[(C_O-C_T)(C_C+\tau_Z/R_C+C_F+C_M)
+ +(g_{mP}+1/R_O)\tau_Z(C_C+C_F)\right],\\
+ \ell_3&=g_{mL}\tau_Z(C_C+C_F)(C_O-C_T).
+\end{align}
+The return ratio is $T_L=(\ell_0+\ell_1s+\ell_2s^2+\ell_3s^3)/(\mathcal D-\ell_0-\ell_1s-\ell_2s^2-\ell_3s^3)$. This definition keeps the precision loop and both command actuators closed. It cannot be multiplied by separately measured connected loop gains.
+
+The first native screen retains 200 pF at the output and compares $C_M=0.1,0.5,2,5$ pF with $R_Z=0,5$ kohm. No command shunt is added. The exact supplied bias and device geometry are fixed. Native poles at 0, 5, and 50 mA precede selection. The local NFET turns off near zero load, so its absence from light load dynamics must be exposed by those checks. A stable 50 mA result is insufficient.
+
+
+\section{Interpretation of the completed compensation screens}
+The supply sourced actuator preserves nominal static gate support when the pass gate exceeds the regulated output. It also removes a local output feedback term. With an output sourced PFET actuator, the gate node current equation contains $g_{mF}(c-o)+(g-o)/r_{oF}$. Moving its source and body to the input changes this term to $g_{mF}(c-v)+(g-v)/r_{oF}$. The output controlled current terms $-g_{mF}o-o/r_{oF}$ are therefore removed from the gate equation and replaced by supply controlled terms. The actuator $C_{gs}$ and $C_{ds}$ also change their physical source terminal from the output to the input. The resulting topology depends on the precision sensing path for feedback that was previously available locally.
+
+The native compensation screen confirms a load dependent limitation for the tested circuit. A small command to gate capacitor with no added command shunt improves the 50 mA supply transfer, but develops right half plane poles at light load. The settings that pass the tested 0, 5, and 50 mA pole checks exhibit positive supply gain within the target MHz band. The selected setting with 5 pF and 5 kohm also fails the large signal recovery test. The test uses a constant current load that remains active during output collapse, so excursions outside the normal operating range are failure evidence rather than a physically qualified prediction of an external load circuit.
+
+Scaling only the three gate driver transistors preserves their DC balance but increases the command capacitance. The measured 10 MHz transfer becomes worse as the scale increases. Scaling the sensing and gate driver devices together improves the measured AC rejection, reaching approximately 20 dB at 10 MHz in the most favorable lead resistor case. Every tested balanced case retains right half plane poles at one or more checked loads. These traces must not be presented as accepted regulator PSR.
+
+The finite level shift complementary driver and direct LVT complementary driver also fail the requested endpoint compensation checks or retain positive MHz supply gain. The direct LVT connection removes the intermediate level shift state, but it does not itself restore output controlled local gate current. Its nominal DC balance and a valid 50 mA pole list are therefore insufficient acceptance criteria.
+
+The completed data support an architectural distinction. A finite local output feedback path and a path that supplies the gate when it exceeds the output serve different purposes. A subsequent hybrid must close both current balances and retain both physical paths. Its loop equations, charge, complete load range, and both load transition directions require independent verification. The present rejection of passive compensation settings is limited to the recorded circuits and parameter sets. It is not a general impossibility result for PFET regulators or a claim of novelty.
+
+\section{Adaptive damping boundary}
+The final authorized damping element is a standard NFET with drain and gate at the pass gate and source and body at ground. Its measured unit current is 0.163 nA at a gate voltage of 0.3 V and 9.406 microampere at 0.87456 V. Its measured transconductance is only 0.526 microsiemens at 0.478 V. The connected device therefore stabilizes zero load poles with the small compensation capacitor but leaves two right half plane poles at 5 mA for both tested multiplicities. The intermediate load gap is exposed explicitly. The larger compensation setting remains stable at the three checked loads but retains positive MHz supply gain.
+
+The device adds $g_{mD}+1/r_{oD}$ to the finite gate equation and adds its source referenced terminal capacitance. It also draws DC current from the connected gate supply path. It cannot be treated as a free damping resistance. The accompanying record reports native operating voltages and supply overhead at each checked load. Further architecture changes and output capacitor values are outside this summary.

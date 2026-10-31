@@ -1,0 +1,20 @@
+\section{Pretest rationale for the supply sourced actuator}
+The light load limitation can first be isolated by replacing the local
+follower with a supply sourced actuator. Its drain remains at $G$ and
+its gate remains at $C$, while its source and body move from $O$ to
+$V_{IN}$. The existing sensing pair and its mirror continue to control
+$C$. This change removes the requirement that $O$ exceed $G$ while
+supplying the gate sink current. It also removes the original local
+FVF action, so its fast loop and full characteristic polynomial must
+be derived again. It is not a drop in improvement with unchanged
+feedback dynamics.
+
+The original follower geometry cannot be retained after the source
+voltage rises by approximately 0.4 V. A preliminary LUT estimate for
+the new supply sourced actuator uses unit width 5 $\mu$m, length
+1.0 $\mu$m and multiplicity about 116. At the declared heavy load
+target $V_{SG}=V_{SD}=0.9$ V, the saved unit current is approximately
+99.894 nA, giving about 11.59 $\mu$A. This is only a geometry seed.
+Connected bias closure across load, reverse current behavior, gate
+drive, PSR and stability have not been simulated for that modification.
+

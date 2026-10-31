@@ -1,0 +1,506 @@
+{
+  "evidence": "New native local ngspice47 SKY130 TT at 27 C. Exactly one prespecified source connection and geometry change.",
+  "connection_change": {
+    "evidence": "Prespecified exact physical change. No automatic bias or geometry tuning.",
+    "old": "XMF D_MF C O O sky130_fd_pr__pfet_01v8 w=5 l=0.15 nf=1 m=100",
+    "new": "XMF D_MF C VIN VIN sky130_fd_pr__pfet_01v8 w=5 l=1.0 nf=1 m=116",
+    "all_other_values_fixed": true,
+    "removed_function": "Original output sourced local FVF action",
+    "pretest_hypothesis_path": "../cff_screen/physical_interpretation.tex",
+    "pretest_hypothesis_sha256": "f5e2e266f84e7538d2e3438d9943a20a6d33fc49ee1d7a7ad2ba3a815f291946"
+  },
+  "load_rows": [
+    {
+      "external_load_A": 0.0,
+      "returncode": 0,
+      "errors": [],
+      "voltages_V": {
+        "O": 0.8033987089998309,
+        "G": 0.8759844240438186,
+        "C": 0.2669388449392418,
+        "X": 0.1504046837749471,
+        "Y": 0.1527468902959912,
+        "A": 0.5206503748724417
+      },
+      "input_current_A": 5.66826412897272e-05,
+      "reference_current_A": 1.31711573824559e-05,
+      "MP_current_A": 1.45337023824732e-05,
+      "actuator_current_into_gate_A": 2.00537400440894e-05,
+      "PH_current_into_gate_A": 1.82253357703792e-11,
+      "NB_current_from_gate_A": 2.005375826942513e-05,
+      "M2_VDS_V": 0.1141919546432506,
+      "M2_VDSAT_V": 0.07274234938208735,
+      "actuator_VSD_V": 0.32401557595618136,
+      "actuator_VDSAT_V": 0.05672062959171257,
+      "actuator_gm_S": 0.0003477537657869666,
+      "actuator_ro_ohm": 644386.961666827,
+      "output_current_balance_A": -3.0200112701404824e-17,
+      "M2_saturation_margin_V": 0.04144960526116326,
+      "actuator_saturation_margin_V": 0.26729494636446877,
+      "output_error_V": 0.0033987089998308573
+    },
+    {
+      "external_load_A": 0.0001,
+      "returncode": 0,
+      "errors": [],
+      "voltages_V": {
+        "O": 0.803067920436559,
+        "G": 0.734130440021073,
+        "C": 0.2698149735000808,
+        "X": 0.1502542267120651,
+        "Y": 0.1526712265024119,
+        "A": 0.5204383368254146
+      },
+      "input_current_A": 0.000155858720621286,
+      "reference_current_A": 1.31882483584607e-05,
+      "MP_current_A": 0.000114488812375737,
+      "actuator_current_into_gate_A": 1.92518154233127e-05,
+      "PH_current_into_gate_A": 1.32203928896912e-10,
+      "NB_current_from_gate_A": 1.925194762724163e-05,
+      "M2_VDS_V": 0.11714374699766891,
+      "M2_VDSAT_V": 0.0726360135774178,
+      "actuator_VSD_V": 0.465869559978927,
+      "actuator_VDSAT_V": 0.0562228738606815,
+      "actuator_gm_S": 0.0003340649422381998,
+      "actuator_ro_ohm": 955222.3902622133,
+      "output_current_balance_A": 1.0229447497400734e-16,
+      "M2_saturation_margin_V": 0.04450773342025112,
+      "actuator_saturation_margin_V": 0.4096466861182455,
+      "output_error_V": 0.003067920436558902
+    },
+    {
+      "external_load_A": 0.001,
+      "returncode": 0,
+      "errors": [],
+      "voltages_V": {
+        "O": 0.8027144860347661,
+        "G": 0.5831470493122358,
+        "C": 0.2729400958785639,
+        "X": 0.1500940161965898,
+        "Y": 0.1525861668573781,
+        "A": 0.5202126617012439
+      },
+      "input_current_A": 0.00105496029712483,
+      "reference_current_A": 1.32074884808812e-05,
+      "MP_current_A": 0.00101444086796921,
+      "actuator_current_into_gate_A": 1.83691025466767e-05,
+      "PH_current_into_gate_A": 9.10443700565288e-09,
+      "NB_current_from_gate_A": 1.837820698368235e-05,
+      "M2_VDS_V": 0.12035392902118577,
+      "M2_VDSAT_V": 0.07252485615156065,
+      "actuator_VSD_V": 0.6168529506877641,
+      "actuator_VDSAT_V": 0.05570113409849351,
+      "actuator_gm_S": 0.0003189316195698056,
+      "actuator_ro_ohm": 1247928.0276293952,
+      "output_current_balance_A": -1.9827347229328662e-17,
+      "M2_saturation_margin_V": 0.04782907286962512,
+      "actuator_saturation_margin_V": 0.5611518165892706,
+      "output_error_V": 0.002714486034766095
+    },
+    {
+      "external_load_A": 0.005,
+      "returncode": 0,
+      "errors": [],
+      "voltages_V": {
+        "O": 0.8024133785070973,
+        "G": 0.4783520861238109,
+        "C": 0.2756417484901057,
+        "X": 0.1499579704861304,
+        "Y": 0.1525105338977971,
+        "A": 0.5200211132279455
+      },
+      "input_current_A": 0.00505430626934545,
+      "reference_current_A": 1.32246201905549e-05,
+      "MP_current_A": 0.00501440003793186,
+      "actuator_current_into_gate_A": 1.76031061343687e-05,
+      "PH_current_into_gate_A": 1.42901677430995e-07,
+      "NB_current_from_gate_A": 1.774600781179971e-05,
+      "M2_VDS_V": 0.12313121459230861,
+      "M2_VDSAT_V": 0.07243200679218738,
+      "actuator_VSD_V": 0.7216479138761891,
+      "actuator_VDSAT_V": 0.05526533988134539,
+      "actuator_gm_S": 0.0003057935164697789,
+      "actuator_ro_ohm": 1450366.3128452813,
+      "output_current_balance_A": 6.586019978081087e-17,
+      "M2_saturation_margin_V": 0.05069920780012123,
+      "actuator_saturation_margin_V": 0.6663825739948437,
+      "output_error_V": 0.002413378507097219
+    },
+    {
+      "external_load_A": 0.01,
+      "returncode": 0,
+      "errors": [],
+      "voltages_V": {
+        "O": 0.8021973378350564,
+        "G": 0.4318612041446601,
+        "C": 0.2776007949129262,
+        "X": 0.1498606116424013,
+        "Y": 0.1524546042541795,
+        "A": 0.5198840841835151
+      },
+      "input_current_A": 0.0100539981212416,
+      "reference_current_A": 1.32373033437658e-05,
+      "MP_current_A": 0.0100143707524186,
+      "actuator_current_into_gate_A": 1.70443927168266e-05,
+      "PH_current_into_gate_A": 4.09551367459909e-07,
+      "NB_current_from_gate_A": 1.745394408428655e-05,
+      "M2_VDS_V": 0.12514619065874671,
+      "M2_VDSAT_V": 0.07236636406604978,
+      "actuator_VSD_V": 0.7681387958553398,
+      "actuator_VDSAT_V": 0.05495774995544087,
+      "actuator_gm_S": 0.0002962204004574869,
+      "actuator_ro_ohm": 1558218.679645257,
+      "output_current_balance_A": 8.220793566281887e-17,
+      "M2_saturation_margin_V": 0.052779826592696935,
+      "actuator_saturation_margin_V": 0.713181045899899,
+      "output_error_V": 0.002197337835056379
+    },
+    {
+      "external_load_A": 0.025,
+      "returncode": 0,
+      "errors": [],
+      "voltages_V": {
+        "O": 0.8015484592617139,
+        "G": 0.3632449416799369,
+        "C": 0.2835783763750968,
+        "X": 0.1495694592236472,
+        "Y": 0.1522790979659391,
+        "A": 0.5194745434845762
+      },
+      "input_current_A": 0.025053496565891,
+      "reference_current_A": 1.32771828491986e-05,
+      "MP_current_A": 0.0250142828436261,
+      "actuator_current_into_gate_A": 1.54000918456709e-05,
+      "PH_current_into_gate_A": 1.60253243030708e-06,
+      "NB_current_from_gate_A": 1.700262427597796e-05,
+      "M2_VDS_V": 0.1312992784091577,
+      "M2_VDSAT_V": 0.07217363763155248,
+      "actuator_VSD_V": 0.8367550583200631,
+      "actuator_VDSAT_V": 0.05406298513296467,
+      "actuator_gm_S": 0.0002680735083093996,
+      "actuator_ro_ohm": 1810614.0261891894,
+      "output_current_balance_A": 4.1541883865139906e-17,
+      "M2_saturation_margin_V": 0.05912564077760522,
+      "actuator_saturation_margin_V": 0.7826920731870984,
+      "output_error_V": 0.0015484592617138748
+    },
+    {
+      "external_load_A": 0.05,
+      "returncode": 0,
+      "errors": [],
+      "voltages_V": {
+        "O": 0.7998126917660642,
+        "G": 0.3000591679115406,
+        "C": 0.3001129518913306,
+        "X": 0.1487999218649411,
+        "Y": 0.1517661538081469,
+        "A": 0.5183938681686246
+      },
+      "input_current_A": 0.050052902706429,
+      "reference_current_A": 1.33944350824298e-05,
+      "MP_current_A": 0.0500140480984967,
+      "actuator_current_into_gate_A": 1.15649317274527e-05,
+      "PH_current_into_gate_A": 4.98958159200632e-06,
+      "NB_current_from_gate_A": 1.655451331945899e-05,
+      "M2_VDS_V": 0.14834679808318368,
+      "M2_VDSAT_V": 0.07168411139151105,
+      "actuator_VSD_V": 0.8999408320884594,
+      "actuator_VDSAT_V": 0.05191283204790224,
+      "actuator_gm_S": 0.0002025243582461767,
+      "actuator_ro_ohm": 2481945.397381739,
+      "output_current_balance_A": 2.772338836363325e-17,
+      "M2_saturation_margin_V": 0.07666268669167263,
+      "actuator_saturation_margin_V": 0.8480280000405572,
+      "output_error_V": -0.00018730823393586782
+    }
+  ],
+  "AC": {
+    "supply": {
+      "returncode": 0,
+      "errors": [],
+      "samples": [
+        {
+          "frequency_Hz": 1,
+          "real": 0.0008451619031362156,
+          "imag": -2.821482307111365e-06,
+          "magnitude_dB": -61.46115335101912
+        },
+        {
+          "frequency_Hz": 1000.0,
+          "real": 0.0008444214470184619,
+          "imag": -0.0028214826473375743,
+          "magnitude_dB": -50.61789999709765
+        },
+        {
+          "frequency_Hz": 10000.0,
+          "real": 0.0007711144332773736,
+          "imag": -0.028215163300385912,
+          "magnitude_dB": -30.987106026711487
+        },
+        {
+          "frequency_Hz": 100000.0,
+          "real": -0.00657746817898922,
+          "imag": -0.28248871991339464,
+          "magnitude_dB": -10.977623920228833
+        },
+        {
+          "frequency_Hz": 1000000.0,
+          "real": -0.9605689638156713,
+          "imag": -3.185015920907111,
+          "magnitude_dB": 10.440306614623642
+        },
+        {
+          "frequency_Hz": 3000000.0,
+          "real": -6.0710765802064195,
+          "imag": 10.637175626819669,
+          "magnitude_dB": 21.761129042122676
+        },
+        {
+          "frequency_Hz": 10000000.0,
+          "real": 1.4733583695283674,
+          "imag": 1.6822792061744105,
+          "magnitude_dB": 6.990436728966598
+        }
+      ]
+    },
+    "reference": {
+      "returncode": 0,
+      "errors": [],
+      "samples": [
+        {
+          "frequency_Hz": 1,
+          "real": 1.014715624432724,
+          "imag": -2.068167500369897e-07,
+          "magnitude_dB": 0.12688695249312773
+        },
+        {
+          "frequency_Hz": 1000.0,
+          "real": 1.014715757530293,
+          "imag": -0.00020681680680240198,
+          "magnitude_dB": 0.12688827221079757
+        },
+        {
+          "frequency_Hz": 10000.0,
+          "real": 1.014728934327431,
+          "imag": -0.002068224266982025,
+          "magnitude_dB": 0.12701892519279182
+        },
+        {
+          "frequency_Hz": 100000.0,
+          "real": 1.016047860579813,
+          "imag": -0.020738556241100835,
+          "magnitude_dB": 0.14009224775240625
+        },
+        {
+          "frequency_Hz": 1000000.0,
+          "real": 1.160130797575078,
+          "imag": -0.27739150162568893,
+          "magnitude_dB": 1.5315896945955
+        },
+        {
+          "frequency_Hz": 3000000.0,
+          "real": -1.102368260146136,
+          "imag": -0.9122380316110936,
+          "magnitude_dB": 3.1120142777639677
+        },
+        {
+          "frequency_Hz": 10000000.0,
+          "real": -0.06105902393014804,
+          "imag": 0.015684946169941802,
+          "magnitude_dB": -24.007478834575416
+        }
+      ]
+    }
+  },
+  "pole_diagnostic": {
+    "status": "success",
+    "returncode": 0,
+    "errors": [],
+    "poles": [
+      {
+        "real_per_s": -70148650611423.1,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -67813298494768.5,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -66557330967872.0,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -65379932886068.5,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -65310860493064.7,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -60667640281289.2,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -58667930434243.3,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -58635416940047.1,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -58163772185415.9,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -54312786685204.4,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -54013118731466.1,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -53504953091956.3,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -52877299421089.0,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -50416031197888.7,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -50237168889919.1,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -48870252955457.9,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -48601145999930.4,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -46850275580855.0,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -43501367691025.7,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -42202801460638.2,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -40927201579911.8,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -40645271283674.7,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -38947032600925.4,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -38682546321785.9,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -21372760968238.6,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -17488919081775.7,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -15849852133261.5,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -14998215726155.8,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -13707799003319.7,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -11222649783691.5,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -11166409055731.9,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -11065699928316.9,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -6058423623977.52,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -4642916551784.12,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -4641426499623.05,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -4556921334363.58,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -4881888083.86236,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -4235684463.53553,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -3723020313.54137,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -986365266.290045,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -365848990.114009,
+        "imag_per_s": 0.0
+      },
+      {
+        "real_per_s": -3699666.78237502,
+        "imag_per_s": 6657067.397394597
+      },
+      {
+        "real_per_s": -3699666.78237502,
+        "imag_per_s": -6657067.3973946
+      }
+    ],
+    "RHP_pole_count": 0
+  },
+  "nominal_load_A": 0.05,
+  "COUT_F": 2e-10,
+  "CC_F": 1e-10,
+  "limitations": [
+    "Original FVF action removed",
+    "Quiet ideal reference and bias ports",
+    "Nominal process only",
+    "No load transient or startup validation",
+    "No added cancellation branches",
+    "No automatic retuning"
+  ]
+}

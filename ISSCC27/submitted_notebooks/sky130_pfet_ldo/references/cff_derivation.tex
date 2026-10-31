@@ -1,0 +1,108 @@
+\section{Finite driver model for direct supply to gate coupling}
+The bounded change adds a capacitor $C_{FF}$ directly between $V_{IN}$
+and the PFET pass gate $G$. The capacitor is in parallel with the native
+gate to source coupling. It carries no DC current and does not impose
+an ideal voltage at the gate. The unchanged transistor circuit must
+still supply its transient charge and retain a stable connected response.
+
+For an interpretable two node reduction, represent the existing driver
+by its finite resistance $R_D$ and voltage command
+\begin{equation}
+v_D=K_Iv+A(s)(o-r),\qquad A(s)=\frac{A_0}{1+s\tau_A}.
+\end{equation}
+The positive output sensitivity is appropriate to a PFET pass device.
+An output increase raises its gate and reduces delivered current.
+$K_I$ is the supply sensitivity of this reduced driver. The model retains
+reciprocal pass capacitors at their physical terminals and defines
+\begin{align}
+C_I&=C_{gs,P}+C_{FF},& C_G&=C_I+C_{gd,P},\\
+C_O'&=C_{OUT}+C_{ds,P}+C_{gd,P},&
+R_\Sigma&=(1/R_L+1/r_{o,P})^{-1}.
+\end{align}
+An ideal current load has $1/R_L=0$. Other output loading must be added
+to the model when required. In particular, the actual local follower
+loads both $G$ and $O$, so this two node reduction explains the capacitor
+mechanism and does not replace the complete native core.
+
+The two terminal equations are
+\begin{align}
+\left(1/R_D+sC_G\right)g
+ -\left(A(s)/R_D+sC_{gd,P}\right)o
+ &=\left(K_I/R_D+sC_I\right)v-A(s)r/R_D,\\
+\left(g_{m,P}-sC_{gd,P}\right)g
+ +\left(1/R_\Sigma+sC_O'\right)o
+ &=\left(g_{m,P}+1/r_{o,P}+sC_{ds,P}\right)v-i_L.
+\end{align}
+The pass $C_{gd}$ appears in both equations. Omitting its output current
+would change both the supply zero and the feedback zero.
+
+With $F_A=1+s\tau_A$, elimination gives
+\begin{align}
+\frac{o}{v}&=\frac{n_0+n_1s+n_2s^2+n_3s^3}
+ {d_0+d_1s+d_2s^2+d_3s^3},\\
+\frac{o}{r}&=\frac{A_0g_{m,P}-A_0C_{gd,P}s}
+ {d_0+d_1s+d_2s^2+d_3s^3},\\
+\frac{o}{i_L}&=-\frac{1+(\tau_A+R_DC_G)s+\tau_AR_DC_Gs^2}
+ {d_0+d_1s+d_2s^2+d_3s^3}.
+\end{align}
+The complete denominator coefficients are
+\begin{align}
+d_0&=1/R_\Sigma+A_0g_{m,P},\\
+d_1&=C_O'+R_DC_G/R_\Sigma+R_DC_{gd,P}g_{m,P}
+      +\tau_A/R_\Sigma-A_0C_{gd,P},\\
+d_2&=R_D(C_GC_O'-C_{gd,P}^2)
+      +\tau_A(C_O'+R_DC_G/R_\Sigma+R_DC_{gd,P}g_{m,P}),\\
+d_3&=\tau_AR_D(C_GC_O'-C_{gd,P}^2).
+\end{align}
+Define three physical supply numerator coefficients
+\begin{align}
+v_0&=g_{m,P}(1-K_I)+1/r_{o,P},\\
+v_1&=C_{ds,P}+K_IC_{gd,P}
+      +R_D\left[g_{m,P}C_{gd,P}+C_G/r_{o,P}\right],\\
+v_2&=R_D(C_GC_{ds,P}+C_IC_{gd,P}).
+\end{align}
+Their expanded combination with the finite feedback pole is
+\begin{align}
+n_0&=v_0,\qquad n_1=v_1+\tau_Av_0,\\
+n_2&=v_2+\tau_Av_1,\qquad n_3=\tau_Av_2.
+\end{align}
+Both $C_G$ and $C_I$ contain $C_{FF}$, so the added capacitor changes
+the supply numerator and the poles. It does not improve rejection by
+changing only a numerator term. For this cubic model, positivity of
+all denominator coefficients and $d_1d_2>d_0d_3$ are the Hurwitz
+conditions. The complete transistor circuit requires its own pole
+calculation because its internal node count is larger.
+
+For every finite $C_{FF}$, the capacitor is open at DC. Therefore the
+DC operating point and the exact zero frequency transfer remain
+unchanged. At frequencies where $C_{FF}$ dominates the finite gate
+impedance, $g$ approaches $v$. The resulting pass current is
+\begin{equation}
+i_P=\left[1/r_{o,P}+s(C_{ds,P}+C_{gd,P})\right](v-o).
+\end{equation}
+The transconductance ripple is suppressed, but finite output resistance
+and drain charge still transmit current. In the limiting two node case,
+\begin{equation}
+\frac{o}{v}\longrightarrow
+\frac{1/r_{o,P}+s(C_{ds,P}+C_{gd,P})}
+ {1/R_\Sigma+s(C_{OUT}+C_{ds,P}+C_{gd,P})}.
+\end{equation}
+The required gate ripple for complete cancellation at fixed output is
+instead
+\begin{equation}
+\frac{g}{v}=1+\frac{1/r_{o,P}+s(C_{ds,P}+C_{gd,P})}
+ {g_{m,P}-sC_{gd,P}}.
+\end{equation}
+Passive common mode coupling alone does not impose this excess gate
+ripple. It can also reduce reference control and increase event charge
+by the same finite impedance mechanism.
+
+The planned native cases are $C_{FF}=0,5,20,100,500$ pF. They use the
+same transistor dimensions, ideal bias ports, 50 mA current load,
+200 pF output capacitor and 100 pF command capacitor. Each case includes
+supply and reference AC responses, the DC point and a closed pole
+diagnostic. The fixed comparison frequencies are 1 kHz, 10 kHz,
+100 kHz, 1 MHz, 3 MHz and 10 MHz. A pole diagnostic is accepted only if
+the log is free of abort or error messages and a nonempty pole list is
+returned. These tests compare a physical added capacitance rather than
+an imposed gate tracking source. No novelty claim is made.

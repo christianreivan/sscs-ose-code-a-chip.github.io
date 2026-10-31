@@ -1,0 +1,64 @@
+\section{Finite physical gate driver alternatives}
+Five driver families were investigated using native public SKY130 compact models. None establishes the required combination of supply rejection across 1 to 10 MHz and acceptable load transient behavior. These alternatives are retained as reproducible circuit evidence. They are separate from the selected power cell refinement.
+
+All reported connected points use $V_{IN}=1.2$ V, $V_{REF}=0.8$ V, the typical process corner, and $27\,^{\circ}$C. The external output capacitance is 200 pF except for one explicitly identified 1 nF sensitivity case. The pass array is a standard PFET with $W=5\,\mu$m, $L=0.15\,\mu$m, and multiplicity 1923. The reference and bias sources remain ideal quiet voltage ports. Native intrinsic charge is retained, but diffusion areas and perimeters use their zero defaults. No extracted layout is included.
+
+The public model source is \texttt{google/skywater\char45 pdk\char45 libs\char45 sky130\_fd\_pr}, commit \texttt{f62031a1be9aefe902d6d54cddd6f59b57627436}. The simulator is ngspice 47. The accompanying \texttt{driver\_refinement\_summary.json} contains model names, a library checksum, terminal maps, geometry, current accounting, headroom, supply phasors, and the completed acceptance diagnostics. Missing numerical $g_m$ or $r_o$ values are identified explicitly rather than inferred from another operating point.
+
+The supply metric is $20\log_{10}|V_{OUT}/V_{IN}|$. More negative values indicate better rejection. Positive values indicate amplification. The reported supply overhead is the VIN source current less the external load. Current supplied by the reference port is reported separately, so the overhead is not the total current of a complete reference and bias implementation.
+
+\subsection{Level shifted complementary driver}
+The supply PFET $M_F$ has $(D,G,S,B)=(G,C,V_{IN},V_{IN})$. Its geometry is $W/L=5/1\,\mu$m with multiplicity 68. A standard NFET $M_D$ with $(G,H,0,0)$ and $W/L=1/1\,\mu$m sinks current from the pass gate. A diode PFET $D_L$ has $(C,C,H,H)$ and $W/L=5/0.15\,\mu$m. A PFET bias device $P_B$ has $(H,B_P,V_{IN},V_{IN})$ and $W/L=5/1\,\mu$m with multiplicity 10.
+
+The physical mirror uses a diode PFET at $B_P$, with the same geometry as $P_B$, and a standard NFET $I_B$ with $(B_P,B_{BI},0,0)$ and $W/L=1/1\,\mu$m. The quiet bias is $B_{BI}=0.65$ V. The diode level shift injects the bias current into $C$. Consequently, the existing sensing mirror device $P_2$ changes from $W=5$ to $4.55\,\mu$m, with $L=0.15\,\mu$m and multiplicity 3 retained. The gate current balance is
+\begin{equation}
+ I_D=I_F+I_{PH}.
+\end{equation}
+The command node also receives the $P_B$ current through $D_L$. Omitting that current would produce an incorrect connected bias solution.
+
+At 50 mA, $C=0.30582$ V, $H=0.91860$ V, and $G=0.29998$ V. The recorded $I_B$ current is $0.7552\,\mu$A and its output resistance is $5.818$ M$\Omega$. The drain headroom above the native saturation voltage is 81.96 mV for $M_2$, 848.75 mV for $M_F$, and 21.07 mV for $M_D$. The VIN overhead is $48.316\,\mu$A, with another $13.325\,\mu$A supplied by the reference port.
+
+With 0.1 pF directly between $C$ and $G$, the supply gain at 50 mA is $-26.63$ dB at 1 MHz and $-6.51$ dB at 10 MHz. The recorded nominal pole list contains no right half plane poles. Nevertheless, the 5 to 50 to 5 mA transient with 100 ns edges exits the valid supply range and does not return to the intended output. This case is rejected. The larger 5 pF compensation cases with 5 or 10 k$\Omega$ series resistance pass the three selected pole checks, but their maximum supply gains within 1 to 10 MHz are $+10.94$ and $+12.84$ dB.
+
+\subsection{Direct LVT complementary driver}
+Removing the level shift and mirror eliminates node $H$ and its current loading of $C$. The supply PFET retains $(G,C,V_{IN},V_{IN})$, with $W/L=5/1\,\mu$m and multiplicity 116. The pull down device becomes an LVT NFET with $(G,C,0,0)$, $W/L=5/0.15\,\mu$m, and multiplicity 379. The existing diode PFET $P_H$ remains connected as $(G,G,V_{IN},V_{IN})$ with $W/L=5/1\,\mu$m and multiplicity 50. The sensing bias $B_{N2}$ is fixed at 0.6515054321 V for every load.
+
+An isolated native LVT unit carries 25.72 nA at $C=0.35$ V and $G=0.3$ V. The connected array sinks $9.747\,\mu$A at 50 mA, balancing approximately $4.756\,\mu$A from $M_F$ and the diode pullup current. The connected output is 0.800000 V. Its supply overhead is $45.220\,\mu$A, with reference current $12.415\,\mu$A. The isolated command capacitance of the two driver arrays is 3.559 pF at 1 MHz, excluding the sensing network and compensation. This capacitance quantifies the cost of using many weakly conducting LVT units.
+
+None of eight compensation settings has only left half plane poles at 0, 5, and 50 mA. Small compensation leaves two right half plane poles at both 0 and 5 mA. Larger compensation can move the instability to another load. The finite driver therefore does not establish an acceptable class AB regulator merely because both current directions are available.
+
+\subsection{Mixed local PFET feedback}
+An output sourced PFET $M_L$ is added with $(G,C,O,O)$, $W/L=5/0.15\,\mu$m, and multiplicity 100. The supply PFET remains unchanged and the LVT pull down multiplicity increases to 600. At 50 mA, $M_L$ supplies approximately $5.682\,\mu$A into $G$ and the output is 0.800000 V.
+
+At zero external load, however, the output rises to 1.18962 V. The gate node exceeds the local PFET body and source node by approximately 0.616 mV, and the local current reverses to $30.487\,\mu$A flowing into the output. This is a connected static failure. The body and source ties cannot be replaced by a unilateral ideal current source when evaluating this operating region. No dynamic acceptance is inferred for this family.
+
+\subsection{Local NFET feedback}
+The next variant replaces the local PFET with an LVT NFET $N_L$ having $(D,G,S,B)=(V_{IN},O,G,0)$, $W/L=5/0.15\,\mu$m, and multiplicity 10. The output now controls only the local device gate. The supply PFET remains at multiplicity 116 and the direct LVT pull down increases to multiplicity 765. This connection avoids the preceding DC path from $G$ into $O$.
+
+In the isolated unit fixture at $(V_{IN},O,G)=(1.2,0.8,0.3)$ V, the local NFET carries $0.99344\,\mu$A, with $g_m=23.734\,\mu$S and body transconductance $g_{mB}=2.374\,\mu$S. Its numerical $r_o$ was not saved in this fixture. The analytical model retains it as a finite independent parameter. The incremental current delivered into $G$ is
+\begin{equation}
+ i_{NL}=g_{mL}(o-g)-g_{mB,L}g+\frac{v-g}{r_{oL}}.
+\end{equation}
+Thus the output controlled current provides local negative feedback, while source degeneration and body effect add finite gate damping. The source current vanishes at light load as $G$ rises, so this damping is strongly load dependent.
+
+For a reduced two node model, let $R_D=r_{oL}\parallel r_{oF}\parallel r_{oN}\parallel r_{oPH}$ and $R_O=R_{LOAD}\parallel r_{oP}$. Let $C_X=C_{gdP}+C_{gsL}$ collect the mutual capacitance between $G$ and $O$. The retained terminal capacitance sums are defined in the accompanying compensation derivation. With command voltage $c$ still free, the nodal equations are
+\begin{align}
+ \left(g_{mL}+g_{mB,L}+g_{mPH}+\frac1{R_D}+sC_G\right)g
+ -(g_{mL}+sC_X)o +(g_{mF}+g_{mN}-sC_{GC})c
+ &=\left(g_{mF}+g_{mPH}+\frac1{r_{oF}}+\frac1{r_{oPH}}+\frac1{r_{oL}}+sC_{GV}\right)v,\\
+ (g_{mP}-sC_X)g+\left(\frac1{R_O}+sC_O\right)o
+ &=\left(g_{mP}+\frac1{r_{oP}}+sC_{OV}\right)v-i_L.
+\end{align}
+All transconductances remain explicit. The source and body contribution must be retained when deriving the local return ratio. Expanded connected transfer expressions and declared loop cuts are provided in \texttt{compensation\_refinement.tex}. Those equations are explanatory reductions. Native simulations retain the full sensing network and model charge.
+
+The connected output varies from 0.80535 V at zero load to 0.80000 V at 50 mA. At 50 mA, $N_L$ supplies $9.925\,\mu$A and VIN overhead is $55.145\,\mu$A. Only the 5 pF and 5 k$\Omega$ compensation case passes all three selected pole checks. Its supply gain is $-6.92$ dB at 1 MHz and $+7.63$ dB at 10 MHz. Its load transient exits the intended supply domain and fails to recover. Maximum observed local source, pull down, and supply pullup currents are approximately 36.45, 49.96, and $30.49\,\mu$A, respectively. Feasible static bias and selected endpoint poles are therefore insufficient for acceptance.
+
+Increasing $C_{OUT}$ to 1 nF is a separate sensitivity test. It introduces two right half plane poles at 5 mA and still gives $+10.38$ dB supply gain at 10 MHz. This result does not support increased output capacitance as the primary repair.
+
+\subsection{Adaptive gate damping}
+A standard diode NFET with $(D,G,S,B)=(G,G,0,0)$ and $W/L=1/1\,\mu$m is added with multiplicity 1 or 2. It contributes $g_m+1/r_o$ to the gate damping while drawing additional steady current. With one unit and 0.1 pF compensation, the diode draws $9.314\,\mu$A at zero load and the recorded zero load poles become stable. At 5 mA its current falls to 21.63 nA and two right half plane poles remain. The second unit does not close this intermediate load gap.
+
+The 5 pF and 5 k$\Omega$ versions pass the three selected pole checks but retain approximately $+7.63$ dB maximum supply gain within 1 to 10 MHz. No separate load transient was performed for the added diode cases. The already failed transient of the parent local NFET circuit is not substituted for such a test.
+
+\section{Implication for further design}
+The finite driver results identify three coupled requirements. The driver must retain useful current in both directions over the full pass gate range. Its sensing and control capacitance must remain compatible with the precision loop. Its damping must persist through intermediate load, where a device that is effective at zero load may already be nearly off. Supply rejection cannot be assessed from the high load AC response alone. These completed cases establish specific failure mechanisms and parameter costs, without claiming silicon performance, Spectre validation, or process and temperature qualification.

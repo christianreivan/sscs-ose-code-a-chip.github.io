@@ -1,0 +1,1886 @@
+{
+  "schema_version": 1,
+  "title": "Finite physical gate driver investigation in a SKY130 PFET regulator",
+  "evidence_class": "Recorded native compact model simulations and explicitly labelled isolated fixtures",
+  "conclusion": "None of these five driver families meets the combined supply rejection and transient target. The separately selected power refinement is documented independently.",
+  "model_provenance": {
+    "repository": "https://github.com/google/skywater-pdk-libs-sky130_fd_pr",
+    "commit": "f62031a1be9aefe902d6d54cddd6f59b57627436",
+    "model_names": [
+      "sky130_fd_pr__pfet_01v8",
+      "sky130_fd_pr__nfet_01v8",
+      "sky130_fd_pr__nfet_01v8_lvt"
+    ],
+    "generated_library_sha256": "7870d5785e3866c81ed4edcf9240453a0fcf6c5469ef997ea19bf6a2af19ade8",
+    "simulator": "ngspice 47",
+    "corner": "tt",
+    "temperature_C": 27,
+    "parasitics": "Native compact model charge. Default zero diffusion areas and perimeters. No extracted layout."
+  },
+  "common_fixture": {
+    "VIN_V": 1.2,
+    "VREF_V": 0.8,
+    "COUT_F": 2e-10,
+    "load_A": [
+      0,
+      0.0001,
+      0.001,
+      0.005,
+      0.01,
+      0.025,
+      0.05
+    ],
+    "reference_and_bias": "Independent ideal quiet voltage sources",
+    "power_boundary": "VIN overhead is current supplied by VIN less the ideal external load. Reference source current is separate. A complete on chip reference and bias generator is absent.",
+    "pass_device": {
+      "device": "MP",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "terminals": {
+        "D": "O",
+        "G": "G",
+        "S": "VIN",
+        "B": "VIN"
+      },
+      "W_um": 5,
+      "L_um": 0.15,
+      "nf": 1,
+      "m": 1923
+    },
+    "diode_pullup": {
+      "device": "PH",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "terminals": {
+        "D": "G",
+        "G": "G",
+        "S": "VIN",
+        "B": "VIN"
+      },
+      "W_um": 5,
+      "L_um": 1,
+      "nf": 1,
+      "m": 50
+    },
+    "baseline": "circuits/refined/core_seed.spice",
+    "removed_capacitor": "Original 100 pF C to ground is removed in the reported compensation cases.",
+    "supply_metric": "20 log10 magnitude of VOUT divided by physical VIN ripple. A positive number is supply amplification.",
+    "pole_scope": "Nonempty native pole lists at the stated operating points. No inference about untested loads, corners or large signal convergence."
+  },
+  "variants": [
+    {
+      "id": "physical_level_shift",
+      "accepted": false,
+      "devices": [
+        {
+          "device": "MF",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "G",
+            "G": "C",
+            "S": "VIN",
+            "B": "VIN"
+          },
+          "W_um": 5,
+          "L_um": 1,
+          "nf": 1,
+          "m": 68
+        },
+        {
+          "device": "ND",
+          "model": "sky130_fd_pr__nfet_01v8",
+          "terminals": {
+            "D": "G",
+            "G": "H",
+            "S": "0",
+            "B": "0"
+          },
+          "W_um": 1,
+          "L_um": 1,
+          "nf": 1,
+          "m": 1
+        },
+        {
+          "device": "DL",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "C",
+            "G": "C",
+            "S": "H",
+            "B": "H"
+          },
+          "W_um": 5,
+          "L_um": 0.15,
+          "nf": 1,
+          "m": 1
+        },
+        {
+          "device": "PB",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "H",
+            "G": "BP",
+            "S": "VIN",
+            "B": "VIN"
+          },
+          "W_um": 5,
+          "L_um": 1,
+          "nf": 1,
+          "m": 10
+        },
+        {
+          "device": "PREF",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "BP",
+            "G": "BP",
+            "S": "VIN",
+            "B": "VIN"
+          },
+          "W_um": 5,
+          "L_um": 1,
+          "nf": 1,
+          "m": 10
+        },
+        {
+          "device": "IB",
+          "model": "sky130_fd_pr__nfet_01v8",
+          "terminals": {
+            "D": "BP",
+            "G": "BBI",
+            "S": "0",
+            "B": "0"
+          },
+          "W_um": 1,
+          "L_um": 1,
+          "nf": 1,
+          "m": 1
+        },
+        {
+          "device": "P2",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "C",
+            "G": "A",
+            "S": "VIN",
+            "B": "VIN"
+          },
+          "W_um": 4.55,
+          "L_um": 0.15,
+          "nf": 1,
+          "m": 3
+        }
+      ],
+      "fixed_bias_V": {
+        "BBI": 0.65,
+        "BN1": 0.659916053624,
+        "BN2": 0.655649839629
+      },
+      "current_balance": "DL injects PB current into C. P2 width is reduced to rebalance the sensing node. At G, MF and PH source the ND sink current.",
+      "recorded_parameters": {
+        "IB_ro_ohm": 5817888.174225673,
+        "IB_current_A": 7.552171369138942e-07,
+        "gm_status": "Not recorded for this selected connected point. No inferred numerical gm is reported."
+      },
+      "dc": [
+        {
+          "load_A": 0,
+          "VOUT_V": 0.8036537301945401,
+          "G_V": 0.8757978198739025,
+          "C_V": 0.2748094683264879,
+          "VIN_overhead_A": 4.77050419238892e-05,
+          "VREF_current_A": 1.31127819149859e-05,
+          "headroom_V": {
+            "M2": 0.04908563303403482,
+            "MF": 0.2688103042133225,
+            "ND": 0.6184227037887011
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.0001,
+          "VOUT_V": 0.8035562120278996,
+          "G_V": 0.7340297024663869,
+          "C_V": 0.275695643293067,
+          "VIN_overhead_A": 4.763353467606499e-05,
+          "VREF_current_A": 1.31183115922433e-05,
+          "headroom_V": {
+            "M2": 0.05002654753994508,
+            "MF": 0.4107178259739478,
+            "ND": 0.4760338957236412
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.001,
+          "VOUT_V": 0.8034451448125992,
+          "G_V": 0.5830508433191213,
+          "C_V": 0.2767095764370793,
+          "VIN_overhead_A": 4.753003938794999e-05,
+          "VREF_current_A": 1.31246923978814e-05,
+          "headroom_V": {
+            "M2": 0.05110297250932129,
+            "MF": 0.5618545490750348,
+            "ND": 0.3243452358751189
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.005,
+          "VOUT_V": 0.8032949339699513,
+          "G_V": 0.4782425251788514,
+          "C_V": 0.2780884680624119,
+          "VIN_overhead_A": 4.745697587211009e-05,
+          "VREF_current_A": 1.31334583557513e-05,
+          "headroom_V": {
+            "M2": 0.052566620684187895,
+            "MF": 0.6668760892351128,
+            "ND": 0.2185722281549558
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.01,
+          "VOUT_V": 0.80312191786944,
+          "G_V": 0.4317464102673911,
+          "C_V": 0.2796871597182607,
+          "VIN_overhead_A": 4.745734606149965e-05,
+          "VREF_current_A": 1.31437427020984e-05,
+          "headroom_V": {
+            "M2": 0.05426326576294363,
+            "MF": 0.7136161247378927,
+            "ND": 0.17095855605196958
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.025,
+          "VOUT_V": 0.8024471878871164,
+          "G_V": 0.3631312080055733,
+          "C_V": 0.2860197097985424,
+          "VIN_overhead_A": 4.7616232199499536e-05,
+          "VREF_current_A": 1.31856152646831e-05,
+          "headroom_V": {
+            "M2": 0.060980867021608,
+            "MF": 0.7831527889260448,
+            "ND": 0.09792666717078202
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.05,
+          "VOUT_V": 0.8004152946279586,
+          "G_V": 0.2999797737210187,
+          "C_V": 0.3058163272056779,
+          "VIN_overhead_A": 4.8316050337997296e-05,
+          "VREF_current_A": 1.33250311817502e-05,
+          "headroom_V": {
+            "M2": 0.0819587989921398,
+            "MF": 0.8487481029625923,
+            "ND": 0.02107491112675991
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        }
+      ],
+      "representative": {
+        "CM_F": 1e-13,
+        "RZ_ohm": 0,
+        "AC_supply": [
+          {
+            "frequency_Hz": 1.0,
+            "magnitude_dB": -27.791819294676277,
+            "real": 0.04077641449784863,
+            "imag": 2.696392829428288e-08
+          },
+          {
+            "frequency_Hz": 999.9999999999901,
+            "magnitude_dB": -27.79181798859296,
+            "real": 0.0407764117142204,
+            "imag": 2.696392834226423e-05
+          },
+          {
+            "frequency_Hz": 9999.999999999869,
+            "magnitude_dB": -27.79168868718176,
+            "real": 0.04077613613808422,
+            "imag": 0.0002696393309268283
+          },
+          {
+            "frequency_Hz": 99999.99999999838,
+            "magnitude_dB": -27.77877549104116,
+            "real": 0.04074857754743798,
+            "imag": 0.002696440812469084
+          },
+          {
+            "frequency_Hz": 999999.999999981,
+            "magnitude_dB": -26.630717388379082,
+            "real": 0.0379829445026472,
+            "imag": 0.0270118166410476
+          },
+          {
+            "frequency_Hz": 3043219.887107659,
+            "magnitude_dB": -21.45560010509164,
+            "real": 0.01412870619278083,
+            "imag": 0.08338216384215082
+          },
+          {
+            "frequency_Hz": 9999999.999999776,
+            "magnitude_dB": -6.51307483794093,
+            "real": -0.3731159912544051,
+            "imag": 0.2897992351796789
+          }
+        ],
+        "RHP_poles_at_50mA": 0,
+        "transient": {
+          "initial_output_V": 0.8032949339699513,
+          "minimum_output_V": -0.916695866518241,
+          "maximum_output_V": 1.176590477829702,
+          "final_output_V": 1.041833539390095,
+          "transition_s": 1e-07,
+          "low_load_A": 0.005,
+          "high_load_A": 0.05
+        }
+      },
+      "compensation_screen": [
+        {
+          "case": "cm1p_rz5000",
+          "CM_pF": 1,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 0.5621731669761013,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm1p_rz10000",
+          "CM_pF": 1,
+          "RZ_ohm": 10000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 1.0935602307096064,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm2p_rz5000",
+          "CM_pF": 2,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 5.841665755826116,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 80
+            }
+          ]
+        },
+        {
+          "case": "cm2p_rz10000",
+          "CM_pF": 2,
+          "RZ_ohm": 10000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 7.431431004870603,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm5p_rz5000",
+          "CM_pF": 5,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 10.94263415875963,
+          "all_tested_poles_LHP": true,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm5p_rz10000",
+          "CM_pF": 5,
+          "RZ_ohm": 10000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 12.839709260032887,
+          "all_tested_poles_LHP": true,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        }
+      ],
+      "rejection": "The 0.1 pF example exits the valid supply range in the load transient. Larger compensation can remove the reported endpoint RHP poles but amplifies MHz supply ripple."
+    },
+    {
+      "id": "direct_lvt_complementary",
+      "accepted": false,
+      "devices": [
+        {
+          "device": "MF",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "G",
+            "G": "C",
+            "S": "VIN",
+            "B": "VIN"
+          },
+          "W_um": 5,
+          "L_um": 1,
+          "nf": 1,
+          "m": 116
+        },
+        {
+          "device": "ND",
+          "model": "sky130_fd_pr__nfet_01v8_lvt",
+          "terminals": {
+            "D": "G",
+            "G": "C",
+            "S": "0",
+            "B": "0"
+          },
+          "W_um": 5,
+          "L_um": 0.15,
+          "nf": 1,
+          "m": 379
+        }
+      ],
+      "removed_devices": [
+        "DL",
+        "PB",
+        "PREF",
+        "IB"
+      ],
+      "fixed_bias_V": {
+        "BN2": 0.6515054321289062
+      },
+      "current_balance": "At C about 0.35 V, the LVT NFET array sinks the sum of MF and PH currents without a separate level shift node.",
+      "isolated_command_capacitance": {
+        "evidence": "Native isolated command current fixture, all other driver terminals AC fixed.",
+        "command_input_capacitance_F": 3.559167324284824e-12,
+        "frequency_Hz": 1000000.0,
+        "includes_MF_and_ND_gate_charge": true,
+        "excludes_precision_network_and_compensation": true
+      },
+      "isolated_unit_curves": {
+        "L_um": 0.15,
+        "unit_W_um": 5,
+        "rows": [
+          {
+            "C_V": 0.15,
+            "NFET_current_A": 1.572360939014591e-10,
+            "PFET116_current_A": 0.0001440937201486362
+          },
+          {
+            "C_V": 0.175,
+            "NFET_current_A": 2.984282309611346e-10,
+            "PFET116_current_A": 9.739083511102595e-05
+          },
+          {
+            "C_V": 0.2,
+            "NFET_current_A": 5.663300020180348e-10,
+            "PFET116_current_A": 6.465103881376832e-05
+          },
+          {
+            "C_V": 0.225,
+            "NFET_current_A": 1.074133805247259e-09,
+            "PFET116_current_A": 4.240002839059443e-05
+          },
+          {
+            "C_V": 0.25,
+            "NFET_current_A": 2.035327643743776e-09,
+            "PFET116_current_A": 2.761387990257586e-05
+          },
+          {
+            "C_V": 0.275,
+            "NFET_current_A": 3.85128680684784e-09,
+            "PFET116_current_A": 1.791634274930956e-05
+          },
+          {
+            "C_V": 0.3,
+            "NFET_current_A": 7.273429569105418e-09,
+            "PFET116_current_A": 1.158785318713734e-05
+          },
+          {
+            "C_V": 0.325,
+            "NFET_current_A": 1.37006051495745e-08,
+            "PFET116_current_A": 7.456900269999883e-06
+          },
+          {
+            "C_V": 0.35,
+            "NFET_current_A": 2.571795406218245e-08,
+            "PFET116_current_A": 4.755435558186165e-06
+          },
+          {
+            "C_V": 0.3750000000000001,
+            "NFET_current_A": 4.805881004988826e-08,
+            "PFET116_current_A": 2.989272613938695e-06
+          },
+          {
+            "C_V": 0.4000000000000001,
+            "NFET_current_A": 8.929189554672571e-08,
+            "PFET116_current_A": 1.841073554591301e-06
+          },
+          {
+            "C_V": 0.4250000000000001,
+            "NFET_current_A": 1.647258750141789e-07,
+            "PFET116_current_A": 1.104574564833104e-06
+          },
+          {
+            "C_V": 0.4500000000000001,
+            "NFET_current_A": 3.013265530377348e-07,
+            "PFET116_current_A": 6.426093288451148e-07
+          },
+          {
+            "C_V": 0.4750000000000001,
+            "NFET_current_A": 5.459536779107785e-07,
+            "PFET116_current_A": 3.616083986746874e-07
+          },
+          {
+            "C_V": 0.5000000000000001,
+            "NFET_current_A": 9.79114238299597e-07,
+            "PFET116_current_A": 1.968289926791323e-07
+          },
+          {
+            "C_V": 0.5250000000000001,
+            "NFET_current_A": 1.737775865143158e-06,
+            "PFET116_current_A": 1.038900049422473e-07
+          },
+          {
+            "C_V": 0.5500000000000002,
+            "NFET_current_A": 3.051733878239882e-06,
+            "PFET116_current_A": 5.340137524895812e-08
+          },
+          {
+            "C_V": 0.5750000000000002,
+            "NFET_current_A": 5.295061238805493e-06,
+            "PFET116_current_A": 2.687414357606644e-08
+          },
+          {
+            "C_V": 0.6000000000000002,
+            "NFET_current_A": 9.041001667500328e-06,
+            "PFET116_current_A": 1.331860391274426e-08
+          },
+          {
+            "C_V": 0.6250000000000002,
+            "NFET_current_A": 1.508431149470445e-05,
+            "PFET116_current_A": 6.54227796794549e-09
+          },
+          {
+            "C_V": 0.6500000000000002,
+            "NFET_current_A": 2.437920500997339e-05,
+            "PFET116_current_A": 3.210971345120122e-09
+          }
+        ]
+      },
+      "parameter_scope": "Native unit current curves establish bias and integer multiplicity. Complete gm and ro tables were not saved.",
+      "dc": [
+        {
+          "load_A": 0,
+          "VOUT_V": 0.8036890336008642,
+          "G_V": 0.8757717352265957,
+          "C_V": 0.3125603622908422,
+          "VIN_overhead_A": 4.48386192140105e-05,
+          "VREF_current_A": 1.21501244227738e-05,
+          "headroom_V": {
+            "M2": 0.0846802963318417,
+            "MF": 0.27365932865787707,
+            "ND": 0.8287425281655729
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.0001,
+          "VOUT_V": 0.8031894479863997,
+          "G_V": 0.7341052968094238,
+          "C_V": 0.3175608305582855,
+          "VIN_overhead_A": 4.4107964677288005e-05,
+          "VREF_current_A": 1.21845118240696e-05,
+          "headroom_V": {
+            "M2": 0.08997362423927531,
+            "MF": 0.41580132911529877,
+            "ND": 0.6871051370087614
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.001,
+          "VOUT_V": 0.8026544915987239,
+          "G_V": 0.5831549508276751,
+          "C_V": 0.3229466956733376,
+          "VIN_overhead_A": 4.336726738735997e-05,
+          "VREF_current_A": 1.22219953839614e-05,
+          "headroom_V": {
+            "M2": 0.0956740225772797,
+            "MF": 0.5672287663077362,
+            "ND": 0.5361850350011512
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.005,
+          "VOUT_V": 0.8022378111574646,
+          "G_V": 0.4783739026731896,
+          "C_V": 0.3271609306524894,
+          "VIN_overhead_A": 4.29439354867802e-05,
+          "VREF_current_A": 1.22516085237539e-05,
+          "headroom_V": {
+            "M2": 0.1001337857263528,
+            "MF": 0.672359208028231,
+            "ND": 0.4314239352925953
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.01,
+          "VOUT_V": 0.8019816708475447,
+          "G_V": 0.4318879761783848,
+          "C_V": 0.3297587661677497,
+          "VIN_overhead_A": 4.287771477420009e-05,
+          "VREF_current_A": 1.22699753302284e-05,
+          "headroom_V": {
+            "M2": 0.10288274125177138,
+            "MF": 0.7190506381295783,
+            "ND": 0.3849457462273528
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.025,
+          "VOUT_V": 0.8013290935897519,
+          "G_V": 0.3632726956718514,
+          "C_V": 0.3363989668913234,
+          "VIN_overhead_A": 4.3263469497099166e-05,
+          "VREF_current_A": 1.23172708631619e-05,
+          "headroom_V": {
+            "M2": 0.10990846591640899,
+            "MF": 0.7881585687158841,
+            "ND": 0.3163376338644619
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.05,
+          "VOUT_V": 0.7999999358712957,
+          "G_V": 0.3000345013708029,
+          "C_V": 0.3499985284170748,
+          "VIN_overhead_A": 4.5220100216895875e-05,
+          "VREF_current_A": 1.24154617573099e-05,
+          "headroom_V": {
+            "M2": 0.12429463699153614,
+            "MF": 0.8522708292692216,
+            "ND": 0.25309205897835346
+          },
+          "extra_currents_A": {},
+          "body_forward_bias_diagnostic_V": null
+        }
+      ],
+      "compensation_screen": [
+        {
+          "case": "cm0.2p_rz0",
+          "CM_pF": 0.2,
+          "RZ_ohm": 0,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 3.061281751327703,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm0.2p_rz5000",
+          "CM_pF": 0.2,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 3.092295758681432,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm1p_rz0",
+          "CM_pF": 1,
+          "RZ_ohm": 0,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 6.471288396700974,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm1p_rz5000",
+          "CM_pF": 1,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 7.192617297015525,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm2p_rz0",
+          "CM_pF": 2,
+          "RZ_ohm": 0,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 8.72725125240005,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm2p_rz5000",
+          "CM_pF": 2,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 11.657535825093392,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm5p_rz0",
+          "CM_pF": 5,
+          "RZ_ohm": 0,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 9.259642609315891,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm5p_rz5000",
+          "CM_pF": 5,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 26.091161663082687,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 6
+            }
+          ]
+        }
+      ],
+      "rejection": "None of eight compensation cases has only LHP poles at all three tested loads. No acceptable transient is established."
+    },
+    {
+      "id": "mixed_local_pfet",
+      "accepted": false,
+      "devices": [
+        {
+          "device": "MF",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "G",
+            "G": "C",
+            "S": "VIN",
+            "B": "VIN"
+          },
+          "W_um": 5,
+          "L_um": 1,
+          "nf": 1,
+          "m": 116
+        },
+        {
+          "device": "ND",
+          "model": "sky130_fd_pr__nfet_01v8_lvt",
+          "terminals": {
+            "D": "G",
+            "G": "C",
+            "S": "0",
+            "B": "0"
+          },
+          "W_um": 5,
+          "L_um": 0.15,
+          "nf": 1,
+          "m": 600
+        },
+        {
+          "device": "ML",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "G",
+            "G": "C",
+            "S": "O",
+            "B": "O"
+          },
+          "W_um": 5,
+          "L_um": 0.15,
+          "nf": 1,
+          "m": 100
+        }
+      ],
+      "fixed_bias_V": {
+        "BN2": 0.6515054321289062
+      },
+      "current_balance": "The additional output sourced PFET supplies about 5.68 microampere into G at nominal load.",
+      "dc": [
+        {
+          "load_A": 0,
+          "VOUT_V": 1.189616144626575,
+          "G_V": 1.190232590683002,
+          "C_V": 0.1246971594616147,
+          "VIN_overhead_A": 3.06806144983032e-05,
+          "VREF_current_A": 2.13069271692622e-05,
+          "headroom_V": {
+            "M2": -0.3480338230175532,
+            "MF": -0.09992045910496086,
+            "ND": 1.1432108448749991
+          },
+          "extra_currents_A": {
+            "ML_current_into_G_A": -3.04873761683617e-05
+          },
+          "body_forward_bias_diagnostic_V": 0.000616446056427078
+        },
+        {
+          "load_A": 0.0001,
+          "VOUT_V": 0.8033194679546505,
+          "G_V": 0.7315427801013643,
+          "C_V": 0.3162565076515568,
+          "VIN_overhead_A": 4.8514243165137985e-05,
+          "VREF_current_A": 1.21755014466764e-05,
+          "headroom_V": {
+            "M2": 0.08859299324084369,
+            "MF": 0.4182425155566636,
+            "ND": 0.6845452690640004
+          },
+          "extra_currents_A": {
+            "ML_current_into_G_A": 4.19902125794867e-06
+          },
+          "body_forward_bias_diagnostic_V": -0.07177668785328617
+        },
+        {
+          "load_A": 0.001,
+          "VOUT_V": 0.802503678142639,
+          "G_V": 0.5828367402473369,
+          "C_V": 0.3244702045223155,
+          "VIN_overhead_A": 4.8286900305659916e-05,
+          "VREF_current_A": 1.22326738935183e-05,
+          "headroom_V": {
+            "M2": 0.09728634967128891,
+            "MF": 0.5676759902175309,
+            "ND": 0.5358646332001119
+          },
+          "extra_currents_A": {
+            "ML_current_into_G_A": 5.13688660986502e-06
+          },
+          "body_forward_bias_diagnostic_V": -0.21966693789530212
+        },
+        {
+          "load_A": 0.005,
+          "VOUT_V": 0.8019094570741024,
+          "G_V": 0.4783406295817438,
+          "C_V": 0.3304920959187043,
+          "VIN_overhead_A": 4.816063639032e-05,
+          "VREF_current_A": 1.2275174543046e-05,
+          "headroom_V": {
+            "M2": 0.10365869911973286,
+            "MF": 0.6726551331126185,
+            "ND": 0.43138574010042247
+          },
+          "extra_currents_A": {
+            "ML_current_into_G_A": 5.65686453879944e-06
+          },
+          "body_forward_bias_diagnostic_V": -0.32356882749235866
+        },
+        {
+          "load_A": 0.01,
+          "VOUT_V": 0.801599804644929,
+          "G_V": 0.4318948300785531,
+          "C_V": 0.3336408857609737,
+          "VIN_overhead_A": 4.823254928399898e-05,
+          "VREF_current_A": 1.22975682173487e-05,
+          "headroom_V": {
+            "M2": 0.10699037854625197,
+            "MF": 0.7193377390398993,
+            "ND": 0.38494678493677986
+          },
+          "extra_currents_A": {
+            "ML_current_into_G_A": 5.84615406687504e-06
+          },
+          "body_forward_bias_diagnostic_V": -0.36970497456637585
+        },
+        {
+          "load_A": 0.025,
+          "VOUT_V": 0.8009842861686192,
+          "G_V": 0.3632966179325515,
+          "C_V": 0.3399183804798693,
+          "VIN_overhead_A": 4.8830135419199866e-05,
+          "VREF_current_A": 1.2342522945884e-05,
+          "headroom_V": {
+            "M2": 0.11363180858733896,
+            "MF": 0.7883777107703821,
+            "ND": 0.316355885711945
+          },
+          "extra_currents_A": {
+            "ML_current_into_G_A": 5.97086938372594e-06
+          },
+          "body_forward_bias_diagnostic_V": -0.43768766823606764
+        },
+        {
+          "load_A": 0.05,
+          "VOUT_V": 0.8000000496018723,
+          "G_V": 0.3000228562424172,
+          "C_V": 0.3499973613621664,
+          "VIN_overhead_A": 5.0903143367496406e-05,
+          "VREF_current_A": 1.24154532645907e-05,
+          "headroom_V": {
+            "M2": 0.12429340258877519,
+            "MF": 0.8522824064732893,
+            "ND": 0.25308041934179015
+          },
+          "extra_currents_A": {
+            "ML_current_into_G_A": 5.68190944962121e-06
+          },
+          "body_forward_bias_diagnostic_V": -0.4999771933594551
+        }
+      ],
+      "rejection": "At zero external load, G exceeds O and ML transfers current into O. The output rises to about 1.190 V. Static regulation fails and no dynamic acceptance is inferred."
+    },
+    {
+      "id": "local_nfet_follower",
+      "accepted": false,
+      "devices": [
+        {
+          "device": "MF",
+          "model": "sky130_fd_pr__pfet_01v8",
+          "terminals": {
+            "D": "G",
+            "G": "C",
+            "S": "VIN",
+            "B": "VIN"
+          },
+          "W_um": 5,
+          "L_um": 1,
+          "nf": 1,
+          "m": 116
+        },
+        {
+          "device": "ND",
+          "model": "sky130_fd_pr__nfet_01v8_lvt",
+          "terminals": {
+            "D": "G",
+            "G": "C",
+            "S": "0",
+            "B": "0"
+          },
+          "W_um": 5,
+          "L_um": 0.15,
+          "nf": 1,
+          "m": 765
+        },
+        {
+          "device": "NL",
+          "model": "sky130_fd_pr__nfet_01v8_lvt",
+          "terminals": {
+            "D": "VIN",
+            "G": "O",
+            "S": "G",
+            "B": "0"
+          },
+          "W_um": 5,
+          "L_um": 0.15,
+          "nf": 1,
+          "m": 10
+        }
+      ],
+      "fixed_bias_V": {
+        "BN2": 0.6515054321289062
+      },
+      "current_balance": "NL sources current from VIN into G under control of O. The output connects only to the NL gate. ND multiplicity is increased to balance this added current.",
+      "isolated_NL_unit": {
+        "VIN_V": 1.2,
+        "O_V": 0.8,
+        "G_V": 0.3,
+        "W_um": 5,
+        "L_um": 0.15,
+        "m": 1,
+        "ID_A": 9.93437103307484e-07,
+        "gm_S": 2.373397953152347e-05,
+        "gmBody_S": 2.374005761696849e-06,
+        "ro_ohm": null,
+        "ro_status": "Not saved in the isolated fixture. Retained symbolically in the model."
+      },
+      "dc": [
+        {
+          "load_A": 0,
+          "VOUT_V": 0.8053535925752178,
+          "G_V": 0.8745597350733973,
+          "C_V": 0.2961752385840001,
+          "VIN_overhead_A": 4.79900182835822e-05,
+          "VREF_current_A": 1.20410799793321e-05,
+          "headroom_V": {
+            "M2": 0.06732843096570304,
+            "MF": 0.2730635168398626,
+            "ND": 0.8275529839504248
+          },
+          "extra_currents_A": {
+            "NL_current_into_G_A": 1.237263511711192e-11
+          },
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.0001,
+          "VOUT_V": 0.8048407953807948,
+          "G_V": 0.733763613471222,
+          "C_V": 0.3011692858294714,
+          "VIN_overhead_A": 4.7040170627725e-05,
+          "VREF_current_A": 1.20736223678489e-05,
+          "headroom_V": {
+            "M2": 0.07261847707377415,
+            "MF": 0.4144511534306052,
+            "ND": 0.6867844545998308
+          },
+          "extra_currents_A": {
+            "NL_current_into_G_A": 3.269582983082175e-11
+          },
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.001,
+          "VOUT_V": 0.8042912887302864,
+          "G_V": 0.5829393278255797,
+          "C_V": 0.3065771975970107,
+          "VIN_overhead_A": 4.607269080478e-05,
+          "VREF_current_A": 1.21095889068885e-05,
+          "headroom_V": {
+            "M2": 0.07834551247792843,
+            "MF": 0.565873595362684,
+            "ND": 0.5359891296280899
+          },
+          "extra_currents_A": {
+            "NL_current_into_G_A": 2.203701589045848e-09
+          },
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.005,
+          "VOUT_V": 0.8038620960826862,
+          "G_V": 0.4781720233146345,
+          "C_V": 0.3108356546873024,
+          "VIN_overhead_A": 4.5529671415299976e-05,
+          "VREF_current_A": 1.21383670808317e-05,
+          "headroom_V": {
+            "M2": 0.08285437369245462,
+            "MF": 0.6710826390038016,
+            "ND": 0.4312411414018016
+          },
+          "extra_currents_A": {
+            "NL_current_into_G_A": 5.569753459088098e-08
+          },
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.01,
+          "VOUT_V": 0.803579189222445,
+          "G_V": 0.4316896241256689,
+          "C_V": 0.3136571413351601,
+          "VIN_overhead_A": 4.5502157474600416e-05,
+          "VREF_current_A": 1.2157629711242e-05,
+          "headroom_V": {
+            "M2": 0.0858413837234439,
+            "MF": 0.7178443043814421,
+            "ND": 0.38476635623179983
+          },
+          "extra_currents_A": {
+            "NL_current_into_G_A": 2.296645819136299e-07
+          },
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.025,
+          "VOUT_V": 0.802643550709612,
+          "G_V": 0.3631063525436975,
+          "C_V": 0.3230571483998432,
+          "VIN_overhead_A": 4.676576452839962e-05,
+          "VREF_current_A": 1.22227684971292e-05,
+          "headroom_V": {
+            "M2": 0.09579091672579813,
+            "MF": 0.7872848302533045,
+            "ND": 0.3161888139052148
+          },
+          "extra_currents_A": {
+            "NL_current_into_G_A": 1.748464888686528e-06
+          },
+          "body_forward_bias_diagnostic_V": null
+        },
+        {
+          "load_A": 0.05,
+          "VOUT_V": 0.800000330942803,
+          "G_V": 0.3000344493230868,
+          "C_V": 0.349994474795695,
+          "VIN_overhead_A": 5.51454740952001e-05,
+          "VREF_current_A": 1.24154322543544e-05,
+          "headroom_V": {
+            "M2": 0.12429034941628263,
+            "MF": 0.8522706456324346,
+            "ND": 0.25309201500787
+          },
+          "extra_currents_A": {
+            "NL_current_into_G_A": 9.924981724871801e-06
+          },
+          "body_forward_bias_diagnostic_V": null
+        }
+      ],
+      "compensation_screen": [
+        {
+          "case": "cm0.1p_rz0",
+          "CM_pF": 0.1,
+          "RZ_ohm": 0,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 6.193056498768015,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm0.1p_rz5000",
+          "CM_pF": 0.1,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 6.189633675331521,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm0.5p_rz0",
+          "CM_pF": 0.5,
+          "RZ_ohm": 0,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 7.129401969197727,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm0.5p_rz5000",
+          "CM_pF": 0.5,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 7.024771131216115,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm2p_rz0",
+          "CM_pF": 2,
+          "RZ_ohm": 0,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 9.668165044015378,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm2p_rz5000",
+          "CM_pF": 2,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 8.105304657578554,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm5p_rz0",
+          "CM_pF": 5,
+          "RZ_ohm": 0,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 12.060857163913205,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        },
+        {
+          "case": "cm5p_rz5000",
+          "CM_pF": 5,
+          "RZ_ohm": 5000,
+          "MD_m": null,
+          "supply_gain_max_1_to_10_MHz_dB": 7.625519572281783,
+          "all_tested_poles_LHP": true,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 0
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0
+            }
+          ]
+        }
+      ],
+      "native_dynamic_cases": [
+        {
+          "COUT_F": 2e-10,
+          "CM_F": 5e-12,
+          "RZ_ohm": 5000,
+          "samples": [
+            {
+              "frequency_Hz": 999.9999999999901,
+              "supply_dB": -17.68894148043703
+            },
+            {
+              "frequency_Hz": 9999.999999999869,
+              "supply_dB": -17.68408447416496
+            },
+            {
+              "frequency_Hz": 99999.99999999838,
+              "supply_dB": -17.224066366916656
+            },
+            {
+              "frequency_Hz": 999999.999999981,
+              "supply_dB": -6.920867052932838
+            },
+            {
+              "frequency_Hz": 3043219.887107659,
+              "supply_dB": 1.4243828008252737
+            },
+            {
+              "frequency_Hz": 9999999.999999776,
+              "supply_dB": 7.625519572281554
+            }
+          ],
+          "transient": {
+            "initial_output_V": 0.8038620960826837,
+            "rising_load_minimum_V": -0.2316436848543337,
+            "falling_load_maximum_V": 1.023229118793445,
+            "final_output_V": 0.5870297716726032,
+            "maximum_NL_source_current_A": 3.644615362945858e-05,
+            "maximum_ND_sink_current_A": 4.995985078812509e-05,
+            "maximum_PU_source_current_A": 3.048722108153296e-05,
+            "transition_s": 1e-07,
+            "low_load_A": 0.005,
+            "high_load_A": 0.05
+          },
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "returned_poles": 8,
+              "RHP_poles": 0
+            },
+            {
+              "load_A": 0.005,
+              "returned_poles": 34,
+              "RHP_poles": 0
+            },
+            {
+              "load_A": 0.05,
+              "returned_poles": 30,
+              "RHP_poles": 0
+            }
+          ],
+          "accepted": false
+        },
+        {
+          "COUT_F": 1e-09,
+          "CM_F": 5e-12,
+          "RZ_ohm": 5000,
+          "samples": [
+            {
+              "frequency_Hz": 999.9999999999901,
+              "supply_dB": -17.68894144159645
+            },
+            {
+              "frequency_Hz": 9999.999999999869,
+              "supply_dB": -17.684080590112213
+            },
+            {
+              "frequency_Hz": 99999.99999999838,
+              "supply_dB": -17.223678027085825
+            },
+            {
+              "frequency_Hz": 999999.999999981,
+              "supply_dB": -6.882662129644807
+            },
+            {
+              "frequency_Hz": 3043219.887107659,
+              "supply_dB": 1.7431015869225361
+            },
+            {
+              "frequency_Hz": 9999999.999999776,
+              "supply_dB": 10.381578808106873
+            }
+          ],
+          "transient": {
+            "initial_output_V": 0.8038620960826837,
+            "rising_load_minimum_V": 0.3172914694971666,
+            "falling_load_maximum_V": 1.015543894570784,
+            "final_output_V": 0.7658632687868199,
+            "maximum_NL_source_current_A": 5.542567486369022e-05,
+            "maximum_ND_sink_current_A": 4.940213039739027e-05,
+            "maximum_PU_source_current_A": 3.6718686395894e-05,
+            "transition_s": 1e-07,
+            "low_load_A": 0.005,
+            "high_load_A": 0.05
+          },
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "returned_poles": 8,
+              "RHP_poles": 0
+            },
+            {
+              "load_A": 0.005,
+              "returned_poles": 7,
+              "RHP_poles": 2
+            },
+            {
+              "load_A": 0.05,
+              "returned_poles": 11,
+              "RHP_poles": 0
+            }
+          ],
+          "accepted": false
+        }
+      ],
+      "rejection": "The 5 pF and 5 kilohm setting has no reported RHP poles at three loads with 200 pF output capacitance, but amplifies MHz ripple and fails the load transient. Increasing output capacitance to 1 nF introduces RHP poles at 5 mA."
+    },
+    {
+      "id": "adaptive_gate_diode",
+      "accepted": false,
+      "base": "local_nfet_follower",
+      "devices": [
+        {
+          "device": "MD",
+          "model": "sky130_fd_pr__nfet_01v8",
+          "terminals": {
+            "D": "G",
+            "G": "G",
+            "S": "0",
+            "B": "0"
+          },
+          "W_um": 1,
+          "L_um": 1,
+          "nf": 1,
+          "m": "1 or 2"
+        }
+      ],
+      "current_balance": "The diode adds gm plus 1 over ro damping at high G. Its current is included in VIN overhead.",
+      "compensation_screen": [
+        {
+          "case": "md1_cm0.1p_rz0",
+          "CM_pF": 0.1,
+          "RZ_ohm": 0,
+          "MD_m": 1,
+          "supply_gain_max_1_to_10_MHz_dB": 6.1942160371391815,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8073663308653546,
+                "G": 0.8731113346664436,
+                "C": 0.2772536529854002
+              },
+              "VIN_overhead_A": 5.28508425026886e-05,
+              "VREF_current_A": 1.19260912970895e-05,
+              "MD_current_A": 9.313958278926018e-06
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2,
+              "voltages_V": {
+                "O": 0.8038673509201988,
+                "G": 0.4781713700531496,
+                "C": 0.3107833510196308
+              },
+              "VIN_overhead_A": 4.55388955259298e-05,
+              "VREF_current_A": 1.21380114073173e-05,
+              "MD_current_A": 2.163223442494066e-08
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8000003570472283,
+                "G": 0.3000344458840234,
+                "C": 0.3499942069233435
+              },
+              "VIN_overhead_A": 5.5145507161999396e-05,
+              "VREF_current_A": 1.24154303050271e-05,
+              "MD_current_A": 1.627896309215201e-10
+            }
+          ]
+        },
+        {
+          "case": "md1_cm5p_rz5000",
+          "CM_pF": 5,
+          "RZ_ohm": 5000,
+          "MD_m": 1,
+          "supply_gain_max_1_to_10_MHz_dB": 7.62614999907869,
+          "all_tested_poles_LHP": true,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8073663308653556,
+                "G": 0.8731113346664432,
+                "C": 0.2772536529854002
+              },
+              "VIN_overhead_A": 5.28508425239552e-05,
+              "VREF_current_A": 1.19260912970892e-05,
+              "MD_current_A": 9.31395827892599e-06
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8038673509201929,
+                "G": 0.4781713700531491,
+                "C": 0.3107833510196307
+              },
+              "VIN_overhead_A": 4.553889549741008e-05,
+              "VREF_current_A": 1.21380114073195e-05,
+              "MD_current_A": 2.163223442494042e-08
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8000003570472278,
+                "G": 0.3000344458840233,
+                "C": 0.349994206923344
+              },
+              "VIN_overhead_A": 5.514550715489397e-05,
+              "VREF_current_A": 1.2415430305027e-05,
+              "MD_current_A": 1.627896309215198e-10
+            }
+          ]
+        },
+        {
+          "case": "md2_cm0.1p_rz0",
+          "CM_pF": 0.1,
+          "RZ_ohm": 0,
+          "MD_m": 2,
+          "supply_gain_max_1_to_10_MHz_dB": 6.19537608765734,
+          "all_tested_poles_LHP": false,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.809526761718332,
+                "G": 0.8715777410712408,
+                "C": 0.2588123810408099
+              },
+              "VIN_overhead_A": 5.92956493187418e-05,
+              "VREF_current_A": 1.18364799469183e-05,
+              "MD_current_A": 1.843404162629116e-05
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 2,
+              "voltages_V": {
+                "O": 0.8038726081779978,
+                "G": 0.4781707164898332,
+                "C": 0.3107310271743459
+              },
+              "VIN_overhead_A": 4.5548130985059894e-05,
+              "VREF_current_A": 1.2137655649393e-05,
+              "MD_current_A": 4.326377167338099e-08
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8000003831517757,
+                "G": 0.3000344424449434,
+                "C": 0.3499939390497828
+              },
+              "VIN_overhead_A": 5.514554021169432e-05,
+              "VREF_current_A": 1.24154283557387e-05,
+              "MD_current_A": 3.255792291353819e-10
+            }
+          ]
+        },
+        {
+          "case": "md2_cm5p_rz5000",
+          "CM_pF": 5,
+          "RZ_ohm": 5000,
+          "MD_m": 2,
+          "supply_gain_max_1_to_10_MHz_dB": 7.6267808008210505,
+          "all_tested_poles_LHP": true,
+          "pole_diagnostics": [
+            {
+              "load_A": 0,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8095267617183326,
+                "G": 0.8715777410712439,
+                "C": 0.2588123810408091
+              },
+              "VIN_overhead_A": 5.92956493258836e-05,
+              "VREF_current_A": 1.18364799469183e-05,
+              "MD_current_A": 1.843404162629154e-05
+            },
+            {
+              "load_A": 0.005,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8038726081779939,
+                "G": 0.4781707164898346,
+                "C": 0.3107310271743458
+              },
+              "VIN_overhead_A": 4.554813099282972e-05,
+              "VREF_current_A": 1.21376556493947e-05,
+              "MD_current_A": 4.326377167338246e-08
+            },
+            {
+              "load_A": 0.05,
+              "status": "success",
+              "RHP_pole_count": 0,
+              "voltages_V": {
+                "O": 0.8000003831517757,
+                "G": 0.3000344424449437,
+                "C": 0.3499939390497824
+              },
+              "VIN_overhead_A": 5.514554020449869e-05,
+              "VREF_current_A": 1.24154283557388e-05,
+              "MD_current_A": 3.255792291353835e-10
+            }
+          ]
+        }
+      ],
+      "rejection": "The diode stabilizes zero load with 0.1 pF compensation but leaves two RHP poles at 5 mA. The 5 pF cases pass only the three recorded pole checks and still amplify MHz supply ripple. No separate diode transient was performed."
+    }
+  ],
+  "numerical_boundary": "Negative output voltages in failed transient trajectories mark model excursions outside the intended regulator domain. They are failure diagnostics, not qualified electrical performance.",
+  "reporting_boundary": "These are exploratory alternatives rather than the final selected power cell. No silicon, layout extraction, Spectre or PVT qualification is claimed."
+}

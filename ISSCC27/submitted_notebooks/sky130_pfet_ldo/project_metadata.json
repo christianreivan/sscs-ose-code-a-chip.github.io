@@ -1,0 +1,23 @@
+{
+  "title": "Supply Disturbance and Gate Drive in a SKY130 PFET Regulator",
+  "authors": [
+    {
+      "name": "Christian Reivan",
+      "affiliation": "",
+      "github": "christianreivan"
+    }
+  ],
+  "github_username": "christianreivan",
+  "fork_url": "https://github.com/christianreivan/sscs-ose-code-a-chip.github.io",
+  "fork_branch": "idea2",
+  "project_directory": "ISSCC27/submitted_notebooks/sky130_pfet_ldo",
+  "license": "Apache-2.0",
+  "evidence_policy": {
+    "native_results": "Only explicitly identified executed SKY130 ngspice results qualify as native evidence in this notebook.",
+    "analytical_results": "Equations and numerical model reconstruction remain analytical evidence.",
+    "prior_technology": "Only public SKY130 data is included",
+    "unvalidated_extensions": "Proposed cancellation changes require separate native results before any performance claim.",
+    "fifty_mA": "The 50 mA target is not qualified merely by pass unit sizing or a DC point.",
+    "selected_result": "At TT 27 C and 50 mA, the selected native circuit improves the entire sampled 1 to 10 MHz and 1 to 100 kHz bands and both specified load transition extrema. Fixed SS and cold checks still fail driver headroom and supply rejection requirements."
+  }
+}

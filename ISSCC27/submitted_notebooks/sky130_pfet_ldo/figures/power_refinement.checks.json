@@ -1,0 +1,37 @@
+{
+  "source_sha256": "dfcd10768b2b7f1e89da36684287f386535f84debd0254b9d125bf0cd68abb74",
+  "upstream_revision": "c4622049b527f1aaaae791f442ffc770ac50856b",
+  "profile": "paper",
+  "errors": [],
+  "warnings": [
+    "Unconnected crossing at [1190, 180], inspect visually",
+    "Unconnected crossing at [1300.0, 180], inspect visually",
+    "Unconnected crossing at [1450, 235], inspect visually",
+    "Unconnected crossing at [330.0, 325], inspect visually",
+    "Unconnected crossing at [690.0, 325], inspect visually",
+    "Unconnected crossing at [780, 325], inspect visually",
+    "Unconnected crossing at [780, 480], inspect visually"
+  ],
+  "verification_scope": "Named terminal attachment, declared nets, wire continuity, junction dots, and label versus wire bounds. Not simulation or exhaustive visual verification.",
+  "visual_review": "Rendered SVG export and PDF preview inspected. All seven unconnected crossings are intentional and have no junction dot. New PU and CAG leads and junctions are correct.",
+  "width_pt": 1220,
+  "height_pt": 361.1044921875,
+  "main_font_pt": 18.0,
+  "subscript_font_pt": 13.0,
+  "wire_pt": 1.8,
+  "preview_dpi": 144,
+  "fonts": [
+    "Helvetica Oblique",
+    "Helvetica"
+  ],
+  "pdf_vector_paths": 267,
+  "pdf_raster_images": 0,
+  "status": "automated checks passed",
+  "public_svg_typography": "Ordinary editable text. No font outlines or font cache included.",
+  "source": "circuits/power_refinement/selected.spice",
+  "source_netlist_sha256": "c224a4be0b20f9d0ae26f2a70704da58981e5a2287d957ec7baf466a8a18283b",
+  "exact_electrical_terminal_match": true,
+  "active_device_count": 13,
+  "public_svg_has_editable_text": true,
+  "public_svg_has_font_outlines": false
+}

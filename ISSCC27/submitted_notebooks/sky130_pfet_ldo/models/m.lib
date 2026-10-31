@@ -1,0 +1,16 @@
+* Portable selected official SKY130 MOS library
+.lib tt
+.include "tt.spice"
+.endl tt
+.lib ss
+.include "ss.spice"
+.endl ss
+.lib ff
+.include "ff.spice"
+.endl ff
+.lib sf
+.include "sf.spice"
+.endl sf
+.lib fs
+.include "fs.spice"
+.endl fs

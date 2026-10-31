@@ -1,0 +1,147 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb}
+\begin{document}
+\title{Physical power cell refinement and reciprocal capacitor ablation}
+\author{Christian Reivan}
+\maketitle
+The selected circuit retains the sensing transistors M1 and M2, the
+source level shifting devices L1 and L2 and the output sourced follower
+MF. The integrated pass transistor is MP, with drain O, gate G, source
+VIN and body VIN. Every array element has width $5\,\mu\mathrm m$ and
+one finger. The MP length changes from $0.15$ to $0.3\,\mu\mathrm m$,
+and its integer multiplier changes from 1923 to 2690. MF retains drain G,
+gate C and source and body O, with length $0.15\,\mu\mathrm m$ and
+multiplier 300. PH has drain and gate G and source and body VIN, with
+length $1\,\mu\mathrm m$ and multiplier 6. NB has drain G, gate BB and
+source and body at ground, with length $0.3\,\mu\mathrm m$ and multiplier 12.
+PU is the added PMOS device with drain G, gate C and source and body VIN.
+Its length is $1\,\mu\mathrm m$ and multiplier is 90. The fixed BB voltage
+is $0.668359375\,\mathrm V$. The remaining bias voltages are unchanged.
+The output capacitor remains 200 pF and the command capacitor remains 100 pF.
+An added 1 pF capacitor connects O directly to G.
+
+\section*{Pass cell current and charge}
+With small voltages denoted by lower case letters, the drain current
+injected by MP into the output is
+\begin{equation}
+i_P=gm_P(v-g)+\frac{v-o}{ro_P}
+ +sC_{dsP}(v-o)+sC_{gdP}(g-o).
+\end{equation}
+At a fixed output, the gate ripple that nulls this current is
+\begin{equation}
+\frac{g}{v}=1+
+\frac{1/ro_P+s(C_{dsP}+C_{gdP})}{gm_P-sC_{gdP}}.
+\end{equation}
+The finite output resistance therefore requires more than unit gate
+tracking at low frequency. A longer channel can reduce this correction,
+but its benefit must be assessed together with its physical gate charge.
+For an array of $m$ identical devices at fixed terminal voltages,
+\begin{align}
+I_D&=m I_{D,u},&gm&=m gm_u,&ro&=ro_u/m,&C_{ij}&=mC_{ij,u}.
+\end{align}
+Increasing only the multiplier does not improve $1/(gm\,ro)$.
+The longer device is operated at a larger source to gate voltage so that
+the required multiplier and charge do not grow as strongly as they do
+under the original gate bias. The connected DC current equations are
+\begin{align}
+I_{MP}&=I_{LOAD}+I_{MF}+I_{L2},\\
+I_{NB}&=I_{MF}+I_{PH}+I_{PU}.
+\end{align}
+The selected values are fixed across all subsequent loads and corners.
+Neither node G nor node O is clamped during the connected simulations.
+
+\section*{Supply helper and coupled node equations}
+The added currents leaving G and C through PU are
+\begin{align}
+\Delta i_G&=gm_U(c-v)+\frac{g-v}{ro_U}
+ +sC_{dsU}(g-v)+sC_{gdU}(g-c),\\
+\Delta i_C&=sC_{gsU}(c-v)+sC_{gdU}(c-g).
+\end{align}
+The first term creates a supply referenced gate current, while the
+capacitor currents load both freely moving nodes. With the original
+physical nodal system $K_0(s)x=b_Vv+b_Rr$, the changed entries are
+\begin{align}
+\Delta K_{GG}&=1/ro_U+s(C_{dsU}+C_{gdU}),\\
+\Delta K_{GC}&=gm_U-sC_{gdU},\\
+\Delta K_{CG}&=-sC_{gdU},\\
+\Delta K_{CC}&=s(C_{gsU}+C_{gdU}),\\
+\Delta b_{V,G}&=gm_U+1/ro_U+sC_{dsU},\\
+\Delta b_{V,C}&=sC_{gsU}.
+\end{align}
+These equations explain why adding a helper is not equivalent to
+imposing an ideal gate voltage. The command node and output sourced
+follower continue to participate in the supply response.
+Scaling MF, PH, NB and PU together by a factor $k$ increases their current
+and gm by $k$, divides their ro by $k$ and multiplies their native charge
+by $k$ at fixed terminal voltages.
+The connected circuit also changes its operating point, so the actual
+currents and ro values are measured after closure.
+
+\section*{Reciprocal output to gate capacitor}
+The ablation adds $C_{AG}$ between O and G with no DC rebias. Its currents
+leaving the two nodes are
+\begin{align}
+\Delta i_G&=sC_{AG}(g-o),&\Delta i_O&=sC_{AG}(o-g).
+\end{align}
+Let $u=e_G-e_O$. The full nodal matrix becomes
+\begin{equation}
+K_C=K_0+sC_{AG}uu^T.
+\end{equation}
+Both diagonal entries increase and both reciprocal off diagonal entries
+decrease by $sC_{AG}$. The expanded determinant update is
+\begin{equation}
+D_C=D_0+sC_{AG}\left[
+\operatorname{cof}_{GG}K_0+\operatorname{cof}_{OO}K_0
+-\operatorname{cof}_{GO}K_0-\operatorname{cof}_{OG}K_0\right].
+\end{equation}
+There is no quadratic term in the added capacitance because the update
+has rank one. For input $q$, define $N_{q,0}=e_O^T\operatorname{adj}(K_0)b_q$.
+The supply and reference responses follow by selecting $b_V$ and $b_R$
+in the same expanded expression
+\begin{equation}
+H_{q,C}=\frac{N_{q,0}D_0+sC_{AG}
+\left[N_{q,0}u^T\operatorname{adj}(K_0)u
+-(e_O^T\operatorname{adj}(K_0)u)(u^T\operatorname{adj}(K_0)b_q)\right]}
+{D_0\left[D_0+sC_{AG}u^T\operatorname{adj}(K_0)u\right]}.
+\end{equation}
+Common polynomial factors cancel. This exact matrix update supplements
+the expanded physical coefficient derivation for the original core.
+It does not multiply independently measured return ratios.
+
+For a brief event with the other gate loading terminals approximately
+fixed, charge conservation gives
+\begin{equation}
+\Delta g\simeq\frac{C_{AG}}{C_{GG}+C_{AG}}\Delta o.
+\end{equation}
+The capacitor therefore lowers the PMOS gate during a falling output.
+Its reciprocal output charge cost under the same restricted condition
+is approximately $C_{AG}C_{GG}/(C_{AG}+C_{GG})$. The reduced common
+source pass stage also has an illustrative right half plane zero near
+$gm_P/(C_{gdP}+C_{AG})$. This motivates explicit native pole and zero
+checks at light load rather than assuming that the fast charge path is
+unconditionally beneficial.
+
+\section*{Reproduction and evidence boundary}
+The fixed circuit is tested at 0, 0.1, 1, 5, 10, 25 and 50 mA. The
+capacitor ablation uses 0, 1, 2, 3, 5, 20, 50 and 100 pF. Every value
+retains the physical reciprocal capacitor and is evaluated with supply
+AC, poles and zeros at 0, 5 and 50 mA and a 5 to 50 to 5 mA current
+transition with 100 ns edges. The capacitor sweep first uses driver
+scale 2. The final bounded driver comparison uses scales 3 and 4, each
+with 1 and 2 pF, with the same BB bias. The selected circuit uses scale 3
+and 1 pF because it gives the largest minimum MHz PSR improvement among
+the tested points that also improve both original transient extrema
+and pass the nominal headroom and observable pole screens. A bounded fixed bias
+corner screen uses SS and FF at 27 degrees Celsius and TT at 0 and
+85 degrees Celsius. Output errors and failures are retained.
+
+The reference and bias ports are quiet ideal sources. VIN current above
+the external load excludes the separately supplied reference current
+and all reference and bias generator power. Native gate capacitance is
+measured in a separate pass array fixture at its connected nominal
+terminal voltages. The connected regulator retains native model charge.
+Default diffusion geometry is zero and layout extraction is absent.
+The reported observable transfer poles are a diagnostic rather than a
+complete internal mode or loop margin proof. No startup, mismatch,
+reliability or silicon qualification is claimed.
+\end{document}

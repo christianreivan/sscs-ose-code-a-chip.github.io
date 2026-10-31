@@ -1,0 +1,104 @@
+{
+  "evidence": "Native SKY130 isolated pass cell AC with output voltage clamped.",
+  "DC_gate_V": 0.300031724809112,
+  "DC_output_V": 0.799841370529954,
+  "gm_S": 0.48861282975803,
+  "ro_ohm": 15.568849753948218,
+  "low_frequency_correction_gain": 1.131455453024472,
+  "rows": [
+    {
+      "frequency_Hz": 1.0,
+      "ideal_null_gate_gain_real": 1.1314554569627202,
+      "ideal_null_gate_gain_imag": 3.4955029130122006e-11,
+      "fixed_gate_current_per_supply_A_per_V": 0.5528436525717212,
+      "fixed_gate_relative_to_fixed_gate_dB": 0.0,
+      "unity_tracking_current_per_supply_A_per_V": 0.06423082281368989,
+      "unity_tracking_relative_to_fixed_gate_dB": -18.69717684330744,
+      "ro_corrected_current_per_supply_A_per_V": 1.924355447596983e-09,
+      "ro_corrected_relative_to_fixed_gate_dB": -169.1663406803674
+    },
+    {
+      "frequency_Hz": 1000.000000000011,
+      "ideal_null_gate_gain_real": 1.1314554569627189,
+      "ideal_null_gate_gain_imag": 3.495502913012232e-08,
+      "fixed_gate_current_per_supply_A_per_V": 0.5528436525717212,
+      "fixed_gate_relative_to_fixed_gate_dB": -9.643274665532871e-16,
+      "unity_tracking_current_per_supply_A_per_V": 0.06423082281369148,
+      "unity_tracking_relative_to_fixed_gate_dB": -18.697176843307226,
+      "ro_corrected_current_per_supply_A_per_V": 1.7187534421150607e-08,
+      "ro_corrected_relative_to_fixed_gate_dB": -150.14777493425566
+    },
+    {
+      "frequency_Hz": 10000.00000000014,
+      "ideal_null_gate_gain_real": 1.1314554569625714,
+      "ideal_null_gate_gain_imag": 3.495502913011616e-07,
+      "fixed_gate_current_per_supply_A_per_V": 0.5528436525717254,
+      "fixed_gate_relative_to_fixed_gate_dB": 0.0,
+      "unity_tracking_current_per_supply_A_per_V": 0.06423082281385015,
+      "unity_tracking_relative_to_fixed_gate_dB": -18.697176843285835,
+      "ro_corrected_current_per_supply_A_per_V": 1.7080559587667025e-07,
+      "ro_corrected_relative_to_fixed_gate_dB": -130.20200465685056
+    },
+    {
+      "frequency_Hz": 100000.0000000018,
+      "ideal_null_gate_gain_real": 1.131455456947846,
+      "ideal_null_gate_gain_imag": 3.495502912948657e-06,
+      "fixed_gate_current_per_supply_A_per_V": 0.5528436525721465,
+      "fixed_gate_relative_to_fixed_gate_dB": 0.0,
+      "unity_tracking_current_per_supply_A_per_V": 0.06423082282971727,
+      "unity_tracking_relative_to_fixed_gate_dB": -18.69717684114675,
+      "ro_corrected_current_per_supply_A_per_V": 1.7079486455721872e-06,
+      "ro_corrected_relative_to_fixed_gate_dB": -110.20255038830226
+    },
+    {
+      "frequency_Hz": 1000000.000000022,
+      "ideal_null_gate_gain_real": 1.1314554554753065,
+      "ideal_null_gate_gain_imag": 3.495502906651642e-05,
+      "fixed_gate_current_per_supply_A_per_V": 0.5528436526142383,
+      "fixed_gate_relative_to_fixed_gate_dB": 0.0,
+      "unity_tracking_current_per_supply_A_per_V": 0.06423082441642897,
+      "unity_tracking_relative_to_fixed_gate_dB": -18.697176627238147,
+      "ro_corrected_current_per_supply_A_per_V": 1.707947572406158e-05,
+      "ro_corrected_relative_to_fixed_gate_dB": -90.20255584662452
+    },
+    {
+      "frequency_Hz": 3019951.720402087,
+      "ideal_null_gate_gain_real": 1.1314554433973458,
+      "ideal_null_gate_gain_imag": 0.0001055624986063521,
+      "fixed_gate_current_per_supply_A_per_V": 0.5528436529594812,
+      "fixed_gate_relative_to_fixed_gate_dB": 0.0,
+      "unity_tracking_current_per_supply_A_per_V": 0.06423083743084253,
+      "unity_tracking_relative_to_fixed_gate_dB": -18.69717487273246,
+      "ro_corrected_current_per_supply_A_per_V": 5.157919180496404e-05,
+      "ro_corrected_relative_to_fixed_gate_dB": -80.60255590113373
+    },
+    {
+      "frequency_Hz": 10000000.00000025,
+      "ideal_null_gate_gain_real": 1.1314553082213725,
+      "ideal_null_gate_gain_imag": 0.0003495502276948671,
+      "fixed_gate_current_per_supply_A_per_V": 0.5528436568234254,
+      "fixed_gate_relative_to_fixed_gate_dB": 0.0,
+      "unity_tracking_current_per_supply_A_per_V": 0.06423098308739994,
+      "unity_tracking_relative_to_fixed_gate_dB": -18.697155236431566,
+      "ro_corrected_current_per_supply_A_per_V": 0.00017079475616702962,
+      "ro_corrected_relative_to_fixed_gate_dB": -70.2025559673543
+    },
+    {
+      "frequency_Hz": 100000000.0000029,
+      "ideal_null_gate_gain_real": 1.1314405830972156,
+      "ideal_null_gate_gain_imag": 0.003495439307801762,
+      "fixed_gate_current_per_supply_A_per_V": 0.5528440777419836,
+      "fixed_gate_relative_to_fixed_gate_dB": 0.0,
+      "unity_tracking_current_per_supply_A_per_V": 0.06424684820553943,
+      "unity_tracking_relative_to_fixed_gate_dB": -18.69501669094852,
+      "ro_corrected_current_per_supply_A_per_V": 0.0017079475611425506,
+      "ro_corrected_relative_to_fixed_gate_dB": -50.20256258321119
+    }
+  ],
+  "limitations": [
+    "This measures pass drain current, not connected LDO PSR",
+    "Gate tracking is imposed by ideal AC sources",
+    "No realizable circuit claim for the complex ideal null ratio",
+    "Default zero diffusion areas and perimeters"
+  ]
+}

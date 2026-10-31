@@ -97,7 +97,7 @@ r_0&=gm_{ER}a_0+gm_{SR}c_0,\\
 r_1&=gm_{ER}a_1+gm_{SR}c_1,\\
 r_2&=gm_{ER}a_2+gm_{SR}c_2.
 \end{align}
-The requested reduced transfer functions are therefore
+The reduced transfer functions are therefore
 \begin{align}
 H_{VIN}(s)&=\frac{v_0+v_1s+v_2s^2+v_3s^3}{d_0+d_1s+d_2s^2+d_3s^3},\\
 H_{VREF}(s)&=\frac{r_0+r_1s+r_2s^2}{d_0+d_1s+d_2s^2+d_3s^3}.
@@ -132,5 +132,5 @@ No coefficient at DC depends on $C_{AG}$. At fixed transistor parameters each de
 
 The helper changes the supply numerator as well as the denominator. Its supply referenced current can assist gate ripple tracking, while its finite $ro_U$ and terminal capacitances modify feedback and loading. It therefore cannot be replaced by an ideal gate command. The longer pass transistor changes $gm_P$, $ro_P$ and all pass capacitances together. Neither an isolated $ro$ improvement nor an added charge path proves improved connected PSR.
 
-The explicit coefficients were checked against independent direct solutions of the three node equations in 1000 synthetic parameter cases. The maximum relative discrepancies were $1.78\times10^{-12}$ for supply transfer, $1.11\times10^{-13}$ for reference transfer and $5.12\times10^{-12}$ for load response. The denominator and affine $C_{AG}$ identities were checked separately. This is an algebra verification of the declared reduction. It is not native model validation, a proof of all internal modes, or a loop margin measurement.
+The expanded coefficients are checked against direct solutions of the three node equations. This verifies the algebra of the reduction. It does not validate its approximation to the native transistor model or establish every internal mode.
 \end{document}

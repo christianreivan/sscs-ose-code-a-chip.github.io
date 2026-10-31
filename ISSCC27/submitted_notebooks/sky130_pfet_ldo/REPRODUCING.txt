@@ -1,15 +1,12 @@
 Reproducing the SKY130 circuit experiments
 
-Run the notebook from this project directory. All supporting scripts resolve their inputs relative to the project, so they also run from other working directories. Python 3.10 or newer is required. The recorded execution uses Python 3.12. A Python environment with NumPy is required for the analysis scripts. The notebook additionally uses its declared plotting and display packages. Install them with python -m pip install -r requirements.txt.
+Use Python 3.10 or newer and ngspice. The recorded simulations use Python 3.12 and ngspice 47. Install the Python packages with:
 
-Install ngspice and place its command executable on PATH, or set NGSPICE_EXE to the executable path. The recorded experiments used the official ngspice 47 Windows command executable. The simulator is not bundled here. Each runner records the actual version output and executable hash in results/SIMULATOR_PROVENANCE.json.
+python -m pip install -r requirements.txt
 
-Official simulator information:
-https://ngspice.sourceforge.io/download.html
+Put the ngspice executable on PATH or set NGSPICE_EXE. Official downloads are available at https://ngspice.sourceforge.io/download.html. The transistor models are included under models with their original license. Their electrical parameters are unchanged.
 
-The selected official SKY130 model equations are bundled under models. No model download is required for the experiments. The original include directives are expanded into five corner files to make the paths portable. No electrical parameter was changed. MODEL_PROVENANCE.json records the pinned public repository revision, every contributing source hash, and the generated hashes. The original Apache license is included. The short m.lib filename is an identical verified alias used to avoid Windows path length problems.
-
-Run the experiments from a terminal with:
+Open sky130_pfet_ldo.ipynb in this project directory and run all cells. Alternatively run these commands in order:
 
 python scripts/run_core.py
 python scripts/run_load_screen.py
@@ -22,26 +19,14 @@ python scripts/check_power_equations.py
 python scripts/run_power_refinement.py
 python scripts/check_reproduction.py
 
-check_power_equations independently checks the expanded polynomial transfers and ordered loop returns in synthetic parameter cases. Its result is algebra verification, not native model validation or circuit qualification.
+run_power_refinement evaluates the selected circuit, seven nominal loads, supply and reference responses, observable poles, load transitions, fixed process and temperature cases, and driver and capacitor variations. Its circuit source is circuits/power_refinement/selected.spice. Fixed bias voltages are used throughout.
 
-run_core reproduces the first connected DC seed.
-run_load_screen applies its unchanged geometry and biases to seven TT loads and eight bounded process and temperature cases.
-run_refined runs the separate refined core at seven fixed TT loads and obtains its supply and reference AC responses at 50 mA.
-run_transient_screen applies the declared 5 mA to 50 mA to 5 mA transition to the refined core. Its large output excursion is failure evidence.
-run_cff_screen evaluates the five declared supply to gate capacitances and performs a native closed pole diagnostic with an explicitly designated input. Only a nonempty clean pole result is treated as a completed diagnostic. This is not a loop margin measurement.
-run_pass_disturbance holds the output voltage fixed and imposes ideal gate tracking. Its result measures pass current disturbance, not LDO PSR. The ideal null gain is an analytical design target and does not establish a realizable driver.
-run_supply_actuator performs the exact source and body change from O to VIN with its declared replacement geometry. It improves the tested static behavior but exhibits substantial MHz supply peaking. All other circuit values remain fixed and the original local FVF action is removed.
+The earlier experiments evaluate the initial core, direct VIN to gate capacitance and moving the follower source and body from VOUT to VIN. run_pass_disturbance measures an isolated pass transistor with a fixed output. Its current response is not connected regulator PSR.
 
-run_power_refinement reproduces the final selected circuit, original comparison, seven nominal loads, supply and reference AC responses, native pole diagnostics, load transitions, fixed corners and the declared driver and capacitor ablations. The source is circuits/power_refinement/selected.spice. Compare results/power_refinement/summary.json with results/recorded/power_refinement.json. Fixed biases are used throughout. The selected circuit improves nominal MHz rejection and both transient extrema, but fails driver saturation and supply rejection checks at the stated corners. These failures are part of the recorded result.
+diagnose_lf_psr reconstructs the low frequency supply paths from native operating parameters for the selected circuit and the two public SKY130 comparisons.
 
-Recorded source results are retained under results/recorded. New executions write separate result folders and preserve netlists, simulator logs, and numerical tables. Raw transistor parameters use the simulator API names. Reported output resistance is calculated from the corresponding derivative as ro.
+check_power_equations verifies the reduced polynomial equations against direct node solutions. check_reproduction compares the reproduced measurements with the recorded results. Recorded data is under results/recorded. Executions create separate result folders with the simulated circuits, logs and numerical tables. A simulator error or missing output stops execution.
 
-The isolated pass and gate charge fixtures intentionally use the committed refined_operating_point.json values. They do not automatically follow a changed transistor geometry or bias. Regenerate and review those fixture values when changing the design. Every connected circuit experiment solves a new operating point.
+The isolated pass and gate charge experiments use recorded/refined_operating_point.json under results as their fixed bias fixture. Update the fixture when changing those devices. Connected experiments calculate a new operating point.
 
-Each runner clears only its explicitly declared generated output files before simulation. Simulator errors, missing fresh files and empty data tables stop execution. A requested native pole diagnostic must return a nonempty pole list. The committed recorded reference results are not cleared.
-
-The model instances use default zero ad, as, pd and ps. They include the model's intrinsic and default overlap behavior, but do not represent extracted diffusion or interconnect capacitance. No layout capacitance qualification is implied.
-
-Reference and bias ports are ideal sources in these experiments. Core overhead means VIN current minus external load. It excludes the separately supplied VREF current and all generator power. The refined nominal point draws approximately 13.4 uA from the reference port separately.
-
-Native simulation completion is distinct from meeting regulation, PSR, transient, startup, or process coverage targets. The declared circuit has no added replica or active source cancellation branches. No novel circuit implementation claim is implied by the educational isolation experiments.
+All experiments use ideal reference and bias ports and zero diffusion areas and perimeters. VIN overhead excludes the separately supplied reference current and generator power. The results do not include extracted layout parasitics, startup or mismatch. The notebook describes the remaining PSR, transient and corner limitations.

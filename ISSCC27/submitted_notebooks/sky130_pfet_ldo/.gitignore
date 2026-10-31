@@ -1,3 +1,8 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+results/NOTEBOOK_EXECUTION.json
+results/SIMULATOR_PROVENANCE.json
+results/REPRODUCTION_CHECK.json
+results/lf_psr_diagnosis/
